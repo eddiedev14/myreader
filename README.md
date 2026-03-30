@@ -1,75 +1,83 @@
-# React + TypeScript + Vite
+# 📘 MyReader
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p align="center">
+  <img src="./assets/banner.png" alt="MyReader Banner"/>
+</p>
 
-Currently, two official plugins are available:
+<p align="center">
+  <img src="https://img.shields.io/badge/status-in%20development-yellow" />
+  <img src="https://img.shields.io/badge/frontend-React-blue" />
+  <img src="https://img.shields.io/badge/backend-Firebase-orange" />
+  <img src="https://img.shields.io/badge/database-Firestore-yellow" />
+</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🚀 About the Project
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+**MyReader** is a reading planning and tracking system that allows users to explore books, organize collections, write notes, and receive recommendations.
 
-Note: This will impact Vite dev & build performances.
+This project is built as part of a **Data Structures course**, focusing on applying theoretical concepts in a real-world application.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## ✨ Features
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- 🔐 User authentication (Firebase Auth)
+- 📚 Book catalog browsing
+- 🔎 Search and filtering
+- 🗂️ Custom collections
+- 🧠 Recommendation system
+- 📝 Notes per book
+- 📊 Personal reading dashboard
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 🛠️ Tech Stack
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Layer    | Technology           |
+| -------- | -------------------- |
+| Frontend | React + TypeScript   |
+| Backend  | Firebase             |
+| Database | Firestore            |
+| Auth     | Firebase Auth        |
+| Styling  | Tailwind CSS, Shadcn |
+
+## ⚙️ Installation
+
+1. Clone the repo
+
+```
+git clone https://github.com/eddiedev14/myreader.git
+cd myreader
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Install dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+npm install
+```
+
+3. Configure your environment variables: Check the file .env.template and based on it create your own .env file with your firebase database
+
+4. Run the project
+
+```
+npm run dev
+```
+
+## Project Goals
+
+- Apply data structures in real scenarios
+- Build a scalable frontend with Firebase
+- Implement clean architecture
+- Deliver a functional academic project
+
+## Authors
+
+<p align="left">
+  <img src="https://img.shields.io/badge/Developer-eddiedev14-blue" /> 
+  <img src="https://img.shields.io/badge/Developer-leiton05-green" /> 
+</p>
+
+## License
+
+Academic use only.
