@@ -10,8 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.2.2",
+    "firebase": "^12.11.0",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "react-router-dom": "^7.13.2",
+    "react-toastify": "^11.0.5",
+    "remixicon": "^4.9.1",
+    "sweetalert2": "^11.26.24",
+    "tailwindcss": "^4.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
