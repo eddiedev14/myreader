@@ -10,6 +10,7 @@ interface IAuthContext {
     credentials: UserSignUp,
   ) => Promise<string | null>;
   loginWithEmailAndPassword: (credentials: UserLogin) => Promise<string | null>;
+  authWithGoogle: () => Promise<string | null>;
   logout: () => Promise<string | null>;
   getUserId: () => string | undefined;
 }
