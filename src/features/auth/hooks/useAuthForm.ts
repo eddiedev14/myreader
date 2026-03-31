@@ -6,7 +6,11 @@ import { useNavigate } from "react-router";
 
 export const useAuthForm = (isSignup: boolean) => {
   //* Context
-  const { registerWithEmailAndPassword, loginWithEmailAndPassword } = useAuth();
+  const {
+    registerWithEmailAndPassword,
+    loginWithEmailAndPassword,
+    authWithGoogle,
+  } = useAuth();
 
   //* States
   const [email, setEmail] = useState("");
@@ -94,6 +98,20 @@ export const useAuthForm = (isSignup: boolean) => {
     }
   };
 
+  const handleGoogleAuth = async () => {
+    // Llamar a la función del contexto
+    const errorMessage = await authWithGoogle();
+
+    if (!errorMessage) {
+      toast.success("¡Sesión iniciada correctamente!");
+      navigate("/login");
+      return;
+    }
+
+    // Mostrar alerta
+    toast.error(errorMessage);
+  };
+
   return {
     email,
     username,
@@ -102,5 +120,6 @@ export const useAuthForm = (isSignup: boolean) => {
     handleUsernameChange,
     handlePasswordChange,
     handleSubmit,
+    handleGoogleAuth,
   };
 };

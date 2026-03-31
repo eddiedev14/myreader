@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import { useCollection } from "@/firebase/hooks/useCollection";
 
 //* Firebase
-import { auth } from "@/firebase/config";
+import { auth, provider } from "@/firebase/config";
 import {
   createUserWithEmailAndPassword,
+  getAdditionalUserInfo,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
 } from "firebase/auth";
 
@@ -99,6 +101,29 @@ export default function useAuthState() {
     }
   };
 
+  const authWithGoogle = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+
+      // Para registrar al usuario en Firestore, se obtiene su información del resultado de la autenticación
+      const user = result.user;
+      const additionalUserInfo = getAdditionalUserInfo(result);
+      const isNewUser = additionalUserInfo?.isNewUser;
+
+      if (isNewUser) {
+        await setById(user.uid, {
+          username: user.displayName || "Invitado",
+          email: user.email!,
+          photoURL: user.photoURL || "",
+        });
+      }
+
+      return null;
+    } catch (error) {
+      return getAuthErrorMessage(error);
+    }
+  };
+
   const logout = async (): Promise<string | null> => {
     try {
       // ? Se usa el método signOut
@@ -118,6 +143,7 @@ export default function useAuthState() {
     loading,
     registerWithEmailAndPassword,
     loginWithEmailAndPassword,
+    authWithGoogle,
     logout,
     getUserId,
   };
