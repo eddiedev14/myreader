@@ -33,10 +33,14 @@ export const AuthForm = ({ isSignup = false }: Props) => {
       >
         <img src={Icon} alt="MyReader Icon" className="size-12 mb-4" />
 
-        <h2 className="text-3xl font-medium text-foreground">Registrarse</h2>
+        <h2 className="text-3xl font-medium text-foreground">
+          {isSignup ? "Registrarse" : "Iniciar sesión"}
+        </h2>
 
         <p className="mt-2 text-base text-foreground/70">
-          Crea una cuenta para disfrutar de MyReader
+          {isSignup
+            ? "Crea una cuenta para disfrutar de MyReader"
+            : "Inicia sesión para continuar en MyReader"}
         </p>
 
         <div className="flex flex-col gap-4 my-4">
@@ -79,7 +83,9 @@ export const AuthForm = ({ isSignup = false }: Props) => {
         </div>
 
         <div className="flex flex-col gap-4">
-          <Button size="lg">Registrarse</Button>
+          <Button size="lg" type="submit">
+            {isSignup ? "Registrarse" : "Iniciar sesión"}
+          </Button>
           <Button
             variant="outline"
             size="lg"
