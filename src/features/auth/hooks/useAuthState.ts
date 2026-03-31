@@ -16,6 +16,7 @@ import {
 // * Types & utils
 import type { UserDoc, UserLogin, UserSignUp } from "../types/user.types";
 import { getAuthErrorMessage } from "../utils/firebaseErrors";
+import { toast } from "react-toastify";
 
 export default function useAuthState() {
   //* States
@@ -128,6 +129,7 @@ export default function useAuthState() {
     try {
       // ? Se usa el método signOut
       await signOut(auth);
+      toast.success("Sesión cerrada exitosamente.");
       return null;
     } catch {
       return "No se pudo cerrar sesión. Intenta nuevamente.";
