@@ -1,5 +1,5 @@
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import { Header } from "@/shared/components/layout/Header";
+import { Header } from "@/shared/components/ui/sections/Header";
 
 export const Dashboard = () => {
   const { user } = useAuth();
