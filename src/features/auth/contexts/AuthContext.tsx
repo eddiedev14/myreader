@@ -1,13 +1,13 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, type ReactNode } from "react";
-import type { UserSignUp, UserLogin, UserDoc } from "../types/user.types";
+import type { User, UserLogin, UserDoc } from "../types/user.types";
 import useAuthState from "../hooks/useAuthState";
 
 interface IAuthContext {
   user: UserDoc | null;
   loading: boolean;
   registerWithEmailAndPassword: (
-    credentials: UserSignUp,
+    credentials: User,
   ) => Promise<string | null>;
   loginWithEmailAndPassword: (credentials: UserLogin) => Promise<string | null>;
   authWithGoogle: () => Promise<string | null>;

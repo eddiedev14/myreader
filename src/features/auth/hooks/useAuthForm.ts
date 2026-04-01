@@ -1,7 +1,7 @@
 import { useState, type SubmitEvent } from "react";
 import { useAuth } from "./useAuth";
 import { toast } from "react-toastify";
-import type { UserLogin, UserSignUp } from "../types/user.types";
+import type { User, UserLogin } from "../types/user.types";
 import { useNavigate } from "react-router";
 
 export const useAuthForm = (isSignup: boolean) => {
@@ -45,7 +45,7 @@ export const useAuthForm = (isSignup: boolean) => {
     }
 
     // Crear objeto IUserLogin con las credenciales
-    const credentials: UserSignUp = {
+    const credentials: User = {
       email,
       username,
       password,
