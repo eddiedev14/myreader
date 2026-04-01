@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { Home, SignUp, SignIn, Dashboard } from "@/pages";
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import { PageLoader } from "@/shared/components/layout/PageLoader";
+import { PageLoader } from "@/shared/components/ui/sections/PageLoader";
 import { GuestOnlyRoute } from "./GuestOnlyRoute";
 import { PrivateRoute } from "./PrivateRoute";
 import { AppLayout } from "@/shared/components/layout/AppLayout";

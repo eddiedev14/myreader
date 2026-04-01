@@ -1,5 +1,5 @@
 import type { LinkItem } from "@/shared/types/link.types";
-import { Button } from "../shadcn/button";
+import { Button } from "../../shadcn/button";
 import { Link } from "react-router-dom";
 
 interface HeroProps {

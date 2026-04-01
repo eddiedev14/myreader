@@ -12,7 +12,7 @@ import {
   SidebarMenuItem,
 } from "@/shared/components/shadcn/sidebar";
 import { Link } from "react-router-dom";
-import { Button } from "../shadcn/button";
+import { Button } from "../../shadcn/button";
 import logo from "@/assets/logos/logo.svg";
 
 // * Menu items

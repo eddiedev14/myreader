@@ -1,6 +1,6 @@
 import type { LinkItem } from "@/shared/types/link.types";
 import { Link } from "react-router-dom";
-import { Button } from "../shadcn/button";
+import { Button } from "../../shadcn/button";
 import Logo from "@/assets/logos/logo.svg";
 
 interface Props {

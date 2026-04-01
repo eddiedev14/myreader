@@ -2,7 +2,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/shared/components/shadcn/sidebar";
-import { AppSidebar } from "./AppSidebar";
+import { AppSidebar } from "../ui/navigation/AppSidebar";
 import { Outlet } from "react-router-dom";
 
 export const AppLayout = () => {

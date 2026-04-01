@@ -1,5 +1,5 @@
-import { Hero } from "@/shared/components/layout/Hero";
-import { Navbar } from "@/shared/components/layout/Navbar";
+import { Hero } from "@/shared/components/ui/sections/Hero";
+import { Navbar } from "@/shared/components/ui/navigation/Navbar";
 import type { LinkItem } from "@/shared/types/link.types";
 import backgroundImage from "@/assets/backgrounds/grid-background.jpeg";
 import heroIllustration from "@/assets/illustrations/hero-illustration.svg";
