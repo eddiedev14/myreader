@@ -115,9 +115,11 @@ export const AuthForm = ({ isSignup = false }: Props) => {
         </div>
 
         <p className="text-center text-sm pt-4">
-          ¿Ya tienes una cuenta?{" "}
+          {isSignup ? "¿Ya tienes una cuenta?" : "¿No tienes una cuenta?"}{" "}
           <Button variant="link" asChild>
-            <Link to="/login">Iniciar sesión</Link>
+            <Link to={isSignup ? "/login" : "/signup"}>
+              {isSignup ? "Iniciar sesión" : "Registrarse"}
+            </Link>
           </Button>
         </p>
       </form>
