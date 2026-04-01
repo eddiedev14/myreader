@@ -1,6 +1,5 @@
-import logo from "@/assets/logos/logo.svg";
 import { useAuth } from "@/features/auth/hooks/useAuth";
-
+import Avatar, { genConfig } from "react-nice-avatar";
 import {
   Sidebar,
   SidebarContent,
@@ -14,6 +13,7 @@ import {
 } from "@/shared/components/shadcn/sidebar";
 import { Link } from "react-router-dom";
 import { Button } from "../shadcn/button";
+import logo from "@/assets/logos/logo.svg";
 
 // * Menu items
 const items = [
@@ -27,6 +27,9 @@ const items = [
 export function AppSidebar() {
   //* Context
   const { user, logout } = useAuth();
+
+  // Generate config for user avatar based on his email
+  const avatarConfig = genConfig(user?.email);
 
   return (
     <Sidebar className="bg-white border-r border-gray-200 shadow-sm">
@@ -55,24 +58,9 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="bg-white border-t border-gray-100">
-        <div className="flex items-center justify-between px-2 py-2 gap-4">
+        <div className="w-full flex items-center justify-between px-2 py-2 gap-4">
           <div className="flex items-center gap-2 overflow-hidden">
-            {user?.photoURL && (
-              <img
-                src={user?.photoURL}
-                alt="User Avatar"
-                className="w-8 h-8 rounded-full object-cover"
-              />
-            )}
-
-            {!user?.photoURL && (
-              <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-                <span className="text-sm text-primary-foreground">
-                  {user?.username?.charAt(0) ?? "U"}
-                </span>
-              </div>
-            )}
-
+            <Avatar className="w-8 h-8 rounded-full object-cover" {...avatarConfig} />
             <span className="text-sm font-medium truncate">
               {user?.username?.split(" ").slice(0, 2).join(" ") ?? "User"}
             </span>

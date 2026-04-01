@@ -14,7 +14,7 @@ import {
 } from "firebase/auth";
 
 // * Types & utils
-import type { UserDoc, UserLogin, UserSignUp } from "../types/user.types";
+import type { User, UserDoc, UserLogin } from "../types/user.types";
 import { getAuthErrorMessage } from "../utils/firebaseErrors";
 import { toast } from "react-toastify";
 
@@ -38,15 +38,7 @@ export default function useAuthState() {
 
         // Se busca ese usuario en la COLECCIÓN usuarios
         const userDoc = await getById(uid);
-        if (userDoc) {
-          setUser({
-            email: firebaseUser.email!,
-            username: userDoc.username,
-            photoURL: userDoc.photoURL || "",
-          });
-        } else {
-          setUser(null);
-        }
+        setUser(userDoc || null);
       } else {
         setUser(null);
       }
@@ -62,7 +54,7 @@ export default function useAuthState() {
     email,
     password,
     username,
-  }: UserSignUp): Promise<string | null> => {
+  }: User): Promise<string | null> => {
     try {
       // ? Se crea un usuario en la parte de authentication con Firebase
       const userCredential = await createUserWithEmailAndPassword(
@@ -75,7 +67,6 @@ export default function useAuthState() {
       await setById(userCredential.user.uid, {
         username,
         email,
-        photoURL: "",
       });
 
       return null;
@@ -115,7 +106,6 @@ export default function useAuthState() {
         await setById(user.uid, {
           username: user.displayName || "Invitado",
           email: user.email!,
-          photoURL: user.photoURL || "",
         });
       }
 
