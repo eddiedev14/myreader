@@ -33,11 +33,11 @@ export const AuthForm = ({ isSignup = false }: Props) => {
       >
         <img src={Icon} alt="MyReader Icon" className="size-12 mb-4" />
 
-        <h2 className="text-3xl font-medium text-foreground">
+        <h2 className="text-2xl font-medium text-foreground">
           {isSignup ? "Registrarse" : "Iniciar sesión"}
         </h2>
 
-        <p className="mt-2 text-base text-foreground/70">
+        <p className="mt-2 text-sm text-foreground/70">
           {isSignup
             ? "Crea una cuenta para disfrutar de MyReader"
             : "Inicia sesión para continuar en MyReader"}
@@ -58,7 +58,7 @@ export const AuthForm = ({ isSignup = false }: Props) => {
             </Field>
             {isSignup && (
               <Field>
-                <FieldLabel htmlFor="username">Username</FieldLabel>
+                <FieldLabel htmlFor="username">Nombre de Usuario</FieldLabel>
                 <Input
                   id="username"
                   placeholder="example"
@@ -69,7 +69,7 @@ export const AuthForm = ({ isSignup = false }: Props) => {
               </Field>
             )}
             <Field>
-              <FieldLabel htmlFor="password">Password</FieldLabel>
+              <FieldLabel htmlFor="password">Contraseña</FieldLabel>
               <Input
                 type="password"
                 id="password"
