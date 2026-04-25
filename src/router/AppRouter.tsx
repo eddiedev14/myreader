@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { Home, SignUp, SignIn, Dashboard } from "@/pages";
+import { Home, SignUp, SignIn, Dashboard, Library } from "@/pages";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { PageLoader } from "@/shared/components/ui/sections/PageLoader";
 import { GuestOnlyRoute } from "./GuestOnlyRoute";
@@ -27,9 +27,10 @@ export const AppRouter = () => {
 
       {/* Rutas Privadas */}
       <Route element={<PrivateRoute />}>
-        { /* Layout común para todas las rutas privadas */}
+        {/* Layout común para todas las rutas privadas */}
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/library" element={<Library />} />
         </Route>
       </Route>
     </Routes>
