@@ -15,12 +15,23 @@ import { Link } from "react-router-dom";
 import { Button } from "../../shadcn/button";
 import logo from "@/assets/logos/logo.svg";
 
+type IItem = {
+  title: string;
+  url: string;
+  icon: string;
+};
+
 // * Menu items
-const items = [
+const items: IItem[] = [
   {
     title: "Dashboard",
     url: "/dashboard",
     icon: "ri-dashboard-fill",
+  },
+  {
+    title: "Librería",
+    url: "/library",
+    icon: "ri-book-marked-fill",
   },
 ];
 
@@ -60,7 +71,10 @@ export function AppSidebar() {
       <SidebarFooter className="bg-white border-t border-gray-100">
         <div className="w-full flex items-center justify-between px-2 py-2 gap-4">
           <div className="flex items-center gap-2 overflow-hidden">
-            <Avatar className="w-8 h-8 rounded-full object-cover" {...avatarConfig} />
+            <Avatar
+              className="w-8 h-8 rounded-full object-cover"
+              {...avatarConfig}
+            />
             <span className="text-sm font-medium truncate">
               {user?.username?.split(" ").slice(0, 2).join(" ") ?? "User"}
             </span>
