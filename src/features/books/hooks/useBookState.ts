@@ -1,15 +1,9 @@
 import { useEffect, useState } from "react";
-import {
-  collection,
-  addDoc,
-  getDocs,
-  updateDoc,
-  deleteDoc,
-  doc,
-} from "firebase/firestore";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 
 import { db } from "../../../firebase/config";
-import type { Book, BookFormData } from "../types/book.types";
+import type { BookFormData } from "../types/book.types";
+import type { Book } from "../interfaces/book.interface";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 
 export const useBookState = () => {
@@ -26,24 +20,8 @@ export const useBookState = () => {
   //* Effects
   useEffect(() => {
     const fetchBooks = async () => {
-      setLoading(true);
-
-      try {
-        const snapshot = await getDocs(booksRef);
-
-        const data: Book[] = snapshot.docs.map((docSnap) => ({
-          id: docSnap.id,
-          ...docSnap.data(),
-        })) as Book[];
-
-        setBooks(data);
-      } catch (error) {
-        console.error("Error fetching books:", error);
-      } finally {
-        setLoading(false);
-      }
+      getBooks();
     };
-
     fetchBooks();
   }, []);
 
@@ -103,49 +81,10 @@ export const useBookState = () => {
     }
   };
 
-  // Actualizar libroo
-  const updateBook = async (
-    id: string,
-    data: Partial<BookFormData>,
-  ): Promise<string | null> => {
-    try {
-      const docRef = doc(db, "books", id);
-
-      await updateDoc(docRef, data);
-
-      setBooks((prev) =>
-        prev.map((book) => (book.id === id ? { ...book, ...data } : book)),
-      );
-
-      return null;
-    } catch (error) {
-      console.error("Error updating book:", error);
-      return "Error al actualizar el libro";
-    }
-  };
-
-  // Remover libro
-  const deleteBook = async (id: string): Promise<string | null> => {
-    try {
-      const docRef = doc(db, "books", id);
-
-      await deleteDoc(docRef);
-
-      setBooks((prev) => prev.filter((book) => book.id !== id));
-
-      return null;
-    } catch (error) {
-      console.error("Error deleting book:", error);
-      return "Error al eliminar el libro";
-    }
-  };
-
   return {
     books,
     loading,
     getBooks,
     createBook,
-    updateBook,
-    deleteBook,
   };
 };
