@@ -8,7 +8,7 @@ export interface Book {
   title: string;
   synopsis: string;
   authors: string[];
-  bookCover: string | null;
+  bookCover: string;
   ISBN: string;
   mainGenre: BookGenres;
   genres: BookGenres[];
