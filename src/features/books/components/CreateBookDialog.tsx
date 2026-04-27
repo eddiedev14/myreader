@@ -88,20 +88,19 @@ export const CreateBookDialog = () => {
       return;
     }
 
+    if (!coverFile) {
+      toast.error("La portada es obligatoria");
+      return;
+    }
+
     try {
-      let coverUrl: string | null = null;
+      const userId = getUserId();
 
-      // Subida de imagen
-      if (coverFile) {
-        const userId = getUserId();
-
-        if (!userId) {
-          toast.error("Usuario no autenticado");
-          return;
-        }
-
-        coverUrl = await uploadBookCover(coverFile, userId);
+      if (!userId) {
+        toast.error("Usuario no autenticado");
+        return;
       }
+      let coverUrl = await uploadBookCover(coverFile, userId);
 
       // Crear libro
       const error = await createBook({

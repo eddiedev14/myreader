@@ -5,6 +5,7 @@ import { db } from "../../../firebase/config";
 import type { BookFormData } from "../types/book.types";
 import type { Book } from "../interfaces/book.interface";
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import { PAGE_SIZE } from "../constants/book.constants";
 
 export const useBookState = () => {
   //* States
@@ -81,10 +82,21 @@ export const useBookState = () => {
     }
   };
 
+  function getPaginatedBooks(page: number, books: Book[]) {
+    const start = (page - 1) * PAGE_SIZE;
+    return books.slice(start, start + PAGE_SIZE);
+  }
+
+  function getTotalPages(books: Book[]) {
+    return Math.ceil(books.length / PAGE_SIZE);
+  }
+
   return {
     books,
     loading,
+    totalPages: getTotalPages(books),
     getBooks,
     createBook,
+    getPaginatedBooks: (page: number) => getPaginatedBooks(page, books),
   };
 };
