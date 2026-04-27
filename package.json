@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@fontsource-variable/inter": "^5.2.8",
+    "@fontsource/poppins": "^5.2.7",
     "@remixicon/react": "^4.9.0",
     "@tailwindcss/vite": "^4.2.2",
     "class-variance-authority": "^0.7.1",
@@ -19,6 +19,7 @@
     "radix-ui": "^1.4.3",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
+    "react-nice-avatar": "^1.5.0",
     "react-router-dom": "^7.13.2",
     "react-toastify": "^11.0.5",
     "remixicon": "^4.9.1",
