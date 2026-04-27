@@ -1,4 +1,5 @@
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import { BookList } from "@/features/books/components/BookList";
 import { CreateBookDialog } from "@/features/books/components/CreateBookDialog";
 import { Header } from "@/shared/components/ui/sections/Header";
 
@@ -16,6 +17,7 @@ export const Library = () => {
           <CreateBookDialog />
         </div>
       </div>
+      <BookList />
     </div>
   );
 };
