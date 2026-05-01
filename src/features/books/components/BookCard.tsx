@@ -2,15 +2,11 @@ import type { Book } from "../interfaces/book.interface";
 
 interface BookCardProps {
   book: Book;
-  onClick: () => void;
 }
 
-export function BookCard({ book, onClick }: BookCardProps) {
+export function BookCard({ book }: BookCardProps) {
   return (
-    <div
-      onClick={onClick}
-      className="cursor-pointer rounded-lg  p-4 shadow-sm hover:shadow-md transition"
-    >
+    <div className="cursor-pointer rounded-lg  p-4 shadow-sm hover:shadow-md transition">
       <img
         src={book.bookCover}
         alt={book.title}

@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { useBook } from "../hooks/useBook";
 import { BookCard } from "./BookCard";
-import { BookInfoDialog } from "./BookInfoDialog";
 import type { Book } from "../interfaces/book.interface";
 
 export function BookList() {
   const { books, getPaginatedBooks, totalPages } = useBook();
 
   const [page, setPage] = useState(1);
-  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
 
   const paginatedBooks = getPaginatedBooks(page);
 
@@ -21,13 +19,9 @@ export function BookList() {
   return (
     <div className="space-y-4">
       {/* Cuadricula para los elementos */}
-      <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
         {paginatedBooks.map((book: Book) => (
-          <BookCard
-            key={book.id}
-            book={book}
-            onClick={() => setSelectedBook(book)}
-          />
+          <BookCard key={book.id} book={book} />
         ))}
       </div>
 
@@ -43,13 +37,6 @@ export function BookList() {
           </button>
         ))}
       </div>
-
-      {/* Modal */}
-      <BookInfoDialog
-        book={selectedBook}
-        open={!!selectedBook}
-        onOpenChange={() => setSelectedBook(null)}
-      />
     </div>
   );
 }
