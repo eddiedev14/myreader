@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useBook } from "../hooks/useBook";
 import { BookCard } from "./BookCard";
-import DoubleCircularLinkedList from "../algorithms/DoubleCircularLinkedList";
+import DoubleCircularLinkedList from "../algorithms/doubleCircularLinkedList/DoubleCircularLinkedList";
+import Node from "../algorithms/doubleCircularLinkedList/Node";
 import getVisibleNodes from "../utils/utils";
 import { PAGE_SIZE, VISIBLE_PAGES } from "../constants/book.constants";
-import Node from "../algorithms/Node";
 
 export function BookList() {
   const { books } = useBook();
