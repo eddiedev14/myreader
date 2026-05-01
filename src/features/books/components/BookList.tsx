@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { useBook } from "../hooks/useBook";
 import { BookCard } from "./BookCard";
-import type { Book } from "../interfaces/book.interface";
 import DoubleCircularLinkedList from "../algorithms/DoubleCircularLinkedList";
-import getVisibleNodes from "../utils/visibleNodes";
+import getVisibleNodes from "../utils/utils";
+import { PAGE_SIZE, VISIBLE_PAGES } from "../constants/book.constants";
+import Node from "../algorithms/Node";
 
 export function BookList() {
-  const { books, getPaginatedBooks, totalPages } = useBook();
-  const booksList = new DoubleCircularLinkedList(totalPages);
-  const [currentNode, setCurrentNode] = useState(booksList.head!);
+  const { books } = useBook();
+  const booksList = new DoubleCircularLinkedList(books);
+  const [currentNode, setCurrentNode] = useState<Node | null>(booksList.head);
 
   if (!books.length) {
     return (
@@ -16,11 +17,13 @@ export function BookList() {
     );
   }
 
+  const totalPages = Math.ceil(books.length / PAGE_SIZE);
+
   return (
     <div className="space-y-4">
       {/* Cuadrícula para los elementos */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-        {getPaginatedBooks(currentNode!.page).map((book: Book) => (
+        {currentNode!.books.map((book) => (
           <BookCard key={book.id} book={book} />
         ))}
       </div>
@@ -34,20 +37,22 @@ export function BookList() {
           <i className="ri-arrow-drop-left-line" />
         </button>
 
-        {getVisibleNodes(currentNode!, totalPages, 6).map((node) => (
-          <button
-            key={node.page}
-            onClick={() => setCurrentNode(node)}
-            className={`px-3 py-1 rounded 
-            ${
-              currentNode!.page === node.page
-                ? "bg-orange-500 text-white"
-                : "bg-white text-black border"
-            }`}
-          >
-            {node.page}
-          </button>
-        ))}
+        {getVisibleNodes(currentNode!, totalPages, VISIBLE_PAGES).map(
+          (node) => (
+            <button
+              key={node.page}
+              onClick={() => setCurrentNode(node)}
+              className={`px-3 py-1 rounded 
+              ${
+                currentNode!.page === node.page
+                  ? "bg-orange-500 text-white"
+                  : "bg-white text-black border"
+              }`}
+            >
+              {node.page}
+            </button>
+          ),
+        )}
 
         <button
           onClick={() => setCurrentNode(booksList.next(currentNode!))}
