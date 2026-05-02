@@ -1,4 +1,5 @@
 import Node from "./Node";
+import type { Book } from "../../interfaces/book.interface";
 
 export class Trie {
   private root: Node;
@@ -7,47 +8,56 @@ export class Trie {
     this.root = new Node();
   }
 
-  // Inserta una palabra en el trie y la asocia al id de un libro
-  insert(word: string, bookId: string) {
-    let node = this.root;
-
-    for (const char of word.toLowerCase()) {
-      if (!node.children.has(char)) {
-        node.children.set(char, new Node());
-      }
-      node = node.children.get(char)!;
-    }
-
-    node.isEndOfWord = true;
-    node.books.push(bookId);
+  insert(book: Book): void {
+    this.insertField(book.title, book);
+    this.insertField(book.ISBN, book);
   }
 
-  // Busca todas las palabras que comienzan con el prefijo dado y devuelve los ids de los libros asociados
-  searchPrefix(prefix: string): string[] {
-    let node = this.root;
+  private insertField(text: string, book: Book): void {
+    let current = this.root;
+
+    const normalized = text.toLowerCase().trim();
+
+    for (const char of normalized) {
+      // 🔥 CAMBIO: ya no hay Map
+      if (!current.children[char]) {
+        current.children[char] = new Node();
+      }
+
+      current = current.children[char];
+    }
+
+    current.isEndOfWord = true;
+    current.books.push(book);
+  }
+
+  searchByPrefix(prefix: string): Book[] {
+    let current = this.root;
 
     for (const char of prefix.toLowerCase()) {
-      if (!node.children.has(char)) {
+      // 🔥 CAMBIO: acceso directo
+      if (!current.children[char]) {
         return [];
       }
-      node = node.children.get(char)!;
+
+      current = current.children[char];
     }
 
-    return this.collectAll(node);
+    const results: Book[] = [];
+    this.collectBooks(current, results);
+
+    // 🔥 Evitar duplicados
+    return Array.from(new Map(results.map((b) => [b.id, b])).values());
   }
 
-  // Función recursiva para recolectar todos los ids de libros a partir de un nodo dado
-  private collectAll(node: Node): string[] {
-    let results: string[] = [];
-
+  private collectBooks(node: Node, results: Book[]): void {
     if (node.isEndOfWord) {
       results.push(...node.books);
     }
 
-    for (const child of node.children.values()) {
-      results = results.concat(this.collectAll(child));
+    // 🔥 CAMBIO: iterar objeto
+    for (const key in node.children) {
+      this.collectBooks(node.children[key], results);
     }
-
-    return results;
   }
 }
