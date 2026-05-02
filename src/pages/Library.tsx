@@ -7,12 +7,13 @@ import { BookList } from "@/features/books/components/BookList";
 import { BookSearch } from "@/features/books/components/BookSearch";
 import { CreateBookDialog } from "@/features/books/components/CreateBookDialog";
 import { Header } from "@/shared/components/ui/sections/Header";
+import { BookAutocomplete } from "@/features/books/components/BookAutocomplete";
 
 export const Library = () => {
   const { user } = useAuth();
   const { books } = useBook();
   const [query, setQuery] = useState("");
-  const { results } = useBookSearch(query);
+  const { results, suggestions } = useBookSearch(query);
   const booksToShow = query ? results : books;
 
   return (
@@ -27,7 +28,11 @@ export const Library = () => {
           <CreateBookDialog />
         </div>
       </div>
-      <BookSearch onSearch={setQuery} />
+      <BookSearch
+        suggestions={suggestions}
+        onChange={setQuery}
+        onSelect={setQuery}
+      />
       <BookList books={booksToShow} />
     </div>
   );
