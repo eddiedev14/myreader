@@ -1,31 +1,32 @@
-import { useMemo } from "react";
+import { useState } from "react";
 import { useBook } from "./useBook";
-import { useBookTrie } from "./useBookTrie";
+import { Trie } from "../algorithms/tries/Trie";
 
 export const useBookSearch = (query: string) => {
   const { books } = useBook();
-  const trie = useBookTrie();
 
-  const results = useMemo(() => {
-    if (!query) return books ?? [];
+  // Creación del unico trie
+  const [trie] = useState(() => {
+    const newTrie = new Trie();
 
-    const ids = trie.searchPrefix(query);
+    (books ?? []).forEach((book) => {
+      newTrie.insert(book);
+    });
 
-    return (books ?? []).filter((book) => ids.includes(book.id));
-  }, [query, trie, books]);
+    return newTrie;
+  });
 
-  // Las sugerencias se limitan
-  const suggestions = useMemo(() => {
-    if (!query) return [];
+  // Busqueda de resultados
+  const searchResults = !query ? [] : trie.searchByPrefix(query);
 
-    const ids = trie.searchPrefix(query);
+  const results = !query ? (books ?? []) : searchResults;
 
-    return (books ?? []).filter((book) => ids.includes(book.id)).slice(0, 5); // 🔥 limitar
-  }, [query, trie, books]);
+  // Sugerencias limitadas a 5
+  const suggestions = searchResults.slice(0, 5);
 
   return {
-    results: results ?? [],
+    results,
     suggestions,
-    hasResults: (results ?? []).length > 0,
+    hasResults: results.length > 0,
   };
 };
