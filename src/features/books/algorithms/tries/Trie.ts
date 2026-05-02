@@ -13,13 +13,13 @@ export class Trie {
     this.insertField(book.ISBN, book);
   }
 
+  // Método privado para insertar un campo en el trie global
   private insertField(text: string, book: Book): void {
     let current = this.root;
 
     const normalized = text.toLowerCase().trim();
 
     for (const char of normalized) {
-      // 🔥 CAMBIO: ya no hay Map
       if (!current.children[char]) {
         current.children[char] = new Node();
       }
@@ -31,11 +31,11 @@ export class Trie {
     current.books.push(book);
   }
 
+  // Busca libros por prefijo (título o ISBN)
   searchByPrefix(prefix: string): Book[] {
     let current = this.root;
 
     for (const char of prefix.toLowerCase()) {
-      // 🔥 CAMBIO: acceso directo
       if (!current.children[char]) {
         return [];
       }
@@ -46,16 +46,16 @@ export class Trie {
     const results: Book[] = [];
     this.collectBooks(current, results);
 
-    // 🔥 Evitar duplicados
+    // Eliminar duplicados en base a su id
     return Array.from(new Map(results.map((b) => [b.id, b])).values());
   }
 
+  // Método recursivo para recolectar libros desde un nodo dado
   private collectBooks(node: Node, results: Book[]): void {
     if (node.isEndOfWord) {
       results.push(...node.books);
     }
 
-    // 🔥 CAMBIO: iterar objeto
     for (const key in node.children) {
       this.collectBooks(node.children[key], results);
     }

@@ -13,11 +13,9 @@ export const Library = () => {
   const { books } = useBook();
   const { user } = useAuth();
 
-  //* States
-  const [query, setQuery] = useState("");
-
   //* Custom hooks
-  const { results, suggestions } = useBookSearch(query);
+  const { query, open, results, suggestions, handleChange, handleSelect } =
+    useBookSearch();
 
   //* Variables
   const booksToShow = query ? results : books;
@@ -35,9 +33,11 @@ export const Library = () => {
         </div>
       </div>
       <BookSearch
+        input={query}
+        open={open}
         suggestions={suggestions}
-        onChange={setQuery}
-        onSelect={setQuery}
+        onChange={handleChange}
+        onSelect={handleSelect}
       />
       <BookList books={booksToShow} />
     </div>

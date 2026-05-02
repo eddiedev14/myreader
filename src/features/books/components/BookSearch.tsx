@@ -1,36 +1,28 @@
-import { useState } from "react";
 import { Input } from "@/shared/components/shadcn/input";
 import type { Book } from "../interfaces/book.interface";
 
 interface Props {
   suggestions: Book[];
-  onSelect: (value: string) => void;
+  input: string;
+  open: boolean;
   onChange: (value: string) => void;
+  onSelect: (book: Book) => void;
 }
 
-export const BookSearch = ({ suggestions, onSelect, onChange }: Props) => {
-  const [input, setInput] = useState("");
-  const [open, setOpen] = useState(false);
-
-  const handleChange = (value: string) => {
-    setInput(value);
-    onChange(value);
-    setOpen(true);
-  };
-
-  const handleSelect = (book: Book) => {
-    setInput(book.title);
-    onSelect(book.title);
-    setOpen(false);
-  };
-
+export const BookSearch = ({
+  suggestions,
+  input,
+  open,
+  onChange,
+  onSelect,
+}: Props) => {
   return (
     <div className="flex gap-2 w-full">
       <div className="relative w-full">
         <Input
           placeholder="Buscar por título o ISBN..."
           value={input}
-          onChange={(e) => handleChange(e.target.value)}
+          onChange={(e) => onChange(e.target.value)}
         />
 
         {open && suggestions.length > 0 && (
@@ -38,7 +30,7 @@ export const BookSearch = ({ suggestions, onSelect, onChange }: Props) => {
             {suggestions.map((book) => (
               <div
                 key={book.id}
-                onClick={() => handleSelect(book)}
+                onClick={() => onSelect(book)}
                 className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
               >
                 {book.title}
