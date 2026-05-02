@@ -10,7 +10,7 @@ export function BookCard({ book }: BookCardProps) {
       <img
         src={book.bookCover}
         alt={book.title}
-        className="w-full h-60 object-cover rounded-md mb-2"
+        className="w-full h-50 object-cover rounded-md mb-2"
       />
 
       <h3 className="font-semibold text-lg">{book.title}</h3>
