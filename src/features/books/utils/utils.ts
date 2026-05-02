@@ -1,4 +1,4 @@
-import Node from "../algorithms/Node";
+import Node from "../algorithms/doubleCircularLinkedList/Node";
 
 function getVisibleNodes(
   current: Node,

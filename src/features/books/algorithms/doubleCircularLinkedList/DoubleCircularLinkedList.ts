@@ -1,6 +1,6 @@
 import Node from "./Node";
-import type { Book } from "../interfaces/book.interface";
-import { PAGE_SIZE } from "../constants/book.constants";
+import type { Book } from "../../interfaces/book.interface";
+import { PAGE_SIZE } from "../../constants/book.constants";
 
 class DoubleCircularLinkedList {
   head: Node | null = null;
