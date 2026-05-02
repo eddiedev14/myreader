@@ -7,13 +7,19 @@ import { BookList } from "@/features/books/components/BookList";
 import { BookSearch } from "@/features/books/components/BookSearch";
 import { CreateBookDialog } from "@/features/books/components/CreateBookDialog";
 import { Header } from "@/shared/components/ui/sections/Header";
-import { BookAutocomplete } from "@/features/books/components/BookAutocomplete";
 
 export const Library = () => {
-  const { user } = useAuth();
+  //* Contexts
   const { books } = useBook();
+  const { user } = useAuth();
+
+  //* States
   const [query, setQuery] = useState("");
+
+  //* Custom hooks
   const { results, suggestions } = useBookSearch(query);
+
+  //* Variables
   const booksToShow = query ? results : books;
 
   return (
