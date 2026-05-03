@@ -13,6 +13,7 @@ import {
 import { Link } from "react-router-dom";
 import { Button } from "../../shadcn/button";
 import logo from "@/assets/logos/logo.svg";
+import { useState } from "react";
 
 type IItem = {
   title: string;
@@ -35,6 +36,9 @@ const items: IItem[] = [
 ];
 
 export function AppSidebar() {
+  //* States
+  const [imageError, setImageError] = useState(false);
+
   //* Context
   const { user, logout } = useAuth();
 
@@ -67,11 +71,12 @@ export function AppSidebar() {
       <SidebarFooter className="bg-white border-t border-gray-100">
         <div className="w-full flex items-center justify-between px-2 py-2 gap-4">
           <div className="flex items-center gap-2 overflow-hidden">
-            {user?.photoURL ? (
+            {user?.photoURL && !imageError ? (
               <img
                 src={user.photoURL}
                 alt="Profile"
                 className="w-8 h-8 rounded-full object-cover shrink-0"
+                onError={() => setImageError(true)}
               />
             ) : (
               <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold text-sm shrink-0">
