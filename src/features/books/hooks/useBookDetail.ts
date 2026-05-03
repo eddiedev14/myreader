@@ -22,7 +22,6 @@ export const useBookDetail = () => {
   const [book, setBook] = useState<Book | null>(null);
   const [creator, setCreator] = useState<UserDoc | null>(null);
   const [comments, setComments] = useState<CommentNode[]>([]);
-  const [imageError, setImageError] = useState(false);
   const [loading, setLoading] = useState(true);
 
   //* Effects
@@ -52,7 +51,5 @@ export const useBookDetail = () => {
     creator,
     comments,
     loading,
-    imageError,
-    setImageError,
   };
 };
