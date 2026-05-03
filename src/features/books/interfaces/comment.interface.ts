@@ -1,4 +1,4 @@
-export interface IComment {
+export interface Comment {
   // Id para firestore
   id: string;
 

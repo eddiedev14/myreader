@@ -1,10 +1,10 @@
-import type { IComment } from "../../interfaces/comment.interface";
+import type { Comment } from "../../interfaces/comment.interface";
 
 export default class CommentNode {
-  comment: IComment;
+  comment: Comment;
   replies: CommentNode[];
 
-  constructor(comment: IComment) {
+  constructor(comment: Comment) {
     this.comment = comment;
     this.replies = [];
   }
