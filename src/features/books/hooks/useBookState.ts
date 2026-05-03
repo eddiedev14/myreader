@@ -1,57 +1,30 @@
-import { useEffect, useState } from "react";
-import { collection, addDoc, getDocs } from "firebase/firestore";
-
-import { db } from "../../../firebase/config";
+import { useEffect } from "react";
+import { useCollection } from "@/firebase/hooks/useCollection";
 import type { BookFormData } from "../types/book.types";
 import type { Book } from "../interfaces/book.interface";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { PAGE_SIZE } from "../constants/book.constants";
 
 export const useBookState = () => {
-  //* States
-  const [books, setBooks] = useState<Book[]>([]);
-  const [loading, setLoading] = useState(true);
-
   //* Auth
   const { user, getUserId } = useAuth();
 
-  //* Collection ref
-  const booksRef = collection(db, "books");
+  //* Collection Hook
+  const {
+    results: books,
+    isPending: loading,
+    error,
+    getAll,
+    add,
+  } = useCollection<Book>("books");
 
   //* Effects
   useEffect(() => {
-    const fetchBooks = async () => {
-      getBooks();
-    };
-    fetchBooks();
+    getAll();
   }, []);
 
   //* Functions
-
-  // Llamar a los libros
-  const getBooks = async (): Promise<string | null> => {
-    setLoading(true);
-
-    try {
-      const snapshot = await getDocs(booksRef);
-
-      const data: Book[] = snapshot.docs.map((docSnap) => ({
-        id: docSnap.id,
-        ...docSnap.data(),
-      })) as Book[];
-
-      setBooks(data);
-
-      return null;
-    } catch (error) {
-      console.error("Error fetching books:", error);
-      return "Error al obtener los libros";
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Crear libro
+  // ? Crear libro
   const createBook = async (data: BookFormData): Promise<string | null> => {
     try {
       const userId = getUserId();
@@ -63,17 +36,16 @@ export const useBookState = () => {
       const payload = {
         ...data,
         creatorId: userId,
-        createdAt: Date.now(),
       };
 
-      const docRef = await addDoc(booksRef, payload);
+      const id = await add(payload as Book);
 
-      const newBook: Book = {
-        id: docRef.id,
-        ...payload,
-      };
+      if (!id) {
+        return "Error al crear el libro";
+      }
 
-      setBooks((prev) => [newBook, ...prev]);
+      // Refetch para actualizar la lista
+      await getAll();
 
       return null;
     } catch (error) {
@@ -82,6 +54,7 @@ export const useBookState = () => {
     }
   };
 
+  //? Pagination
   function getPaginatedBooks(page: number, books: Book[]) {
     const start = (page - 1) * PAGE_SIZE;
     return books.slice(start, start + PAGE_SIZE);
@@ -94,8 +67,8 @@ export const useBookState = () => {
   return {
     books,
     loading,
+    error,
     totalPages: getTotalPages(books),
-    getBooks,
     createBook,
     getPaginatedBooks: (page: number) => getPaginatedBooks(page, books),
   };
