@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect } from "react";
 import { BookCard } from "./BookCard";
 import DoubleCircularLinkedList from "../algorithms/doubleCircularLinkedList/DoubleCircularLinkedList";
 import Node from "../algorithms/doubleCircularLinkedList/Node";
-import getVisibleNodes from "../utils/utils";
+import { getVisibleNodes } from "../utils/utils";
 import { PAGE_SIZE, VISIBLE_PAGES } from "../constants/book.constants";
 import type { Book } from "../interfaces/book.interface";
 
