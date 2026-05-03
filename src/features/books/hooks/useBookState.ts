@@ -15,6 +15,7 @@ export const useBookState = () => {
     isPending: loading,
     error,
     getAll,
+    getById,
     add,
   } = useCollection<Book>("books");
 
@@ -54,6 +55,11 @@ export const useBookState = () => {
     }
   };
 
+  //? Buscar libro por id
+  const getBookById = async (id: string) => {
+    return await getById(id);
+  };
+
   //? Pagination
   function getPaginatedBooks(page: number, books: Book[]) {
     const start = (page - 1) * PAGE_SIZE;
@@ -70,6 +76,7 @@ export const useBookState = () => {
     error,
     totalPages: getTotalPages(books),
     createBook,
+    getBookById,
     getPaginatedBooks: (page: number) => getPaginatedBooks(page, books),
   };
 };

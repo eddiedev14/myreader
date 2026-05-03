@@ -1,4 +1,3 @@
-import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useBook } from "@/features/books/hooks/useBook";
 import { useBookSearch } from "@/features/books/hooks/useBookSearch";
 
@@ -10,7 +9,6 @@ import { Header } from "@/shared/components/ui/sections/Header";
 export const Library = () => {
   //* Contexts
   const { books } = useBook();
-  const { user } = useAuth();
 
   //* Custom hooks
   const { query, open, results, suggestions, handleChange, handleSelect } =
@@ -23,8 +21,8 @@ export const Library = () => {
     <div className="flex flex-col gap-6">
       <div className="flex items-start justify-between">
         <Header
-          title={`Bienvenido, ${user?.username || "Usuario"}!`}
-          paragraph="Explora nuestra colección de libros, ¡Descubre tu proximo favorito!"
+          title="Explora la Biblioteca"
+          paragraph="Descubre libros publicados, revisa sus detalles y encuentra tu próxima gran lectura."
         />
 
         <div className="mt-2">
