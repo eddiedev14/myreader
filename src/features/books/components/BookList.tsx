@@ -12,7 +12,6 @@ interface Props {
 
 export function BookList({ books = [] }: Props) {
   const booksList = useMemo(() => new DoubleCircularLinkedList(books), [books]);
-
   const [currentNode, setCurrentNode] = useState<Node | null>(booksList.head);
 
   useEffect(() => {
