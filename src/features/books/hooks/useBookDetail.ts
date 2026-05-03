@@ -6,6 +6,8 @@ import type { Book } from "../interfaces/book.interface";
 import { useCollection } from "@/firebase/hooks/useCollection";
 import type { UserDoc } from "@/features/auth/types/user.types";
 
+import CommentNode from "../algorithms/tree/CommentNode";
+
 export const useBookDetail = () => {
   //* URL Segments
   const { bookID } = useParams();
@@ -19,6 +21,7 @@ export const useBookDetail = () => {
   //* States
   const [book, setBook] = useState<Book | null>(null);
   const [creator, setCreator] = useState<UserDoc | null>(null);
+  const [comments, setComments] = useState<CommentNode[]>([]);
   const [imageError, setImageError] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -47,6 +50,7 @@ export const useBookDetail = () => {
   return {
     book,
     creator,
+    comments,
     loading,
     imageError,
     setImageError,
