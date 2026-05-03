@@ -3,3 +3,4 @@ export { SignUp } from "./SignUp";
 export { SignIn } from "./SignIn";
 export { Dashboard } from "./Dashboard";
 export { Library } from "./Library";
+export { BookDetail } from "./BookDetail";
