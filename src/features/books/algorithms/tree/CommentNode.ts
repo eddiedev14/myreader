@@ -12,4 +12,14 @@ export default class CommentNode {
   addChild(node: CommentNode): void {
     this.replies.push(node);
   }
+
+  getAllIds(): string[] {
+    const ids = [this.comment.id];
+
+    this.replies.forEach((reply) => {
+      ids.push(...reply.getAllIds());
+    });
+
+    return ids;
+  }
 }
