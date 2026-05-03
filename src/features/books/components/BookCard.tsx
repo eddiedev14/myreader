@@ -20,7 +20,9 @@ export function BookCard({ book }: BookCardProps) {
       />
 
       <h3 className="font-semibold text-lg">{book.title}</h3>
-      <p className="text-sm text-gray-500">{book.mainGenre}</p>
+      <p className="text-sm text-gray-500 capitalize">
+        {book.mainGenre.replaceAll("_", " ")}
+      </p>
     </div>
   );
 }
