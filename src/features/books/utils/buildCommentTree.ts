@@ -1,7 +1,9 @@
 import CommentNode from "../algorithms/tree/CommentNode";
-import type { Comment } from "../interfaces/comment.interface";
+import type { CommentWithUser } from "../interfaces/comment.interface";
 
-export const buildCommentTree = (comments: Comment[]): CommentNode[] => {
+export const buildCommentTree = (
+  comments: CommentWithUser[],
+): CommentNode[] => {
   const nodeMap = new Map<string, CommentNode>();
   const roots: CommentNode[] = [];
 
@@ -17,7 +19,7 @@ export const buildCommentTree = (comments: Comment[]): CommentNode[] => {
     if (!node) return;
 
     //? Comentario raíz
-    if (comment.parentId === null) {
+    if (!comment.parentId) {
       roots.push(node);
       return;
     }

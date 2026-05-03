@@ -24,7 +24,7 @@ export const useBookDetail = () => {
   const [loading, setLoading] = useState(true);
 
   //* Custom hooks
-  const { results: comments } = useComments(bookID);
+  const { commentTree } = useComments(bookID);
 
   //* Effects
   useEffect(() => {
@@ -51,7 +51,7 @@ export const useBookDetail = () => {
   return {
     book,
     creator,
-    comments,
+    commentTree,
     loading,
   };
 };

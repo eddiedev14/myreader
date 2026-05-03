@@ -7,9 +7,10 @@ import { Button } from "@/shared/components/shadcn/button";
 import { Link } from "react-router-dom";
 import { CommentForm } from "@/features/books/components/CommentForm";
 import { ProfilePhoto } from "@/shared/components/ui/user/ProfilePhoto";
+import { CommentList } from "@/features/books/components/CommentList";
 
 export const BookDetail = () => {
-  const { book, creator, comments, loading } = useBookDetail();
+  const { book, creator, commentTree, loading } = useBookDetail();
 
   if (loading) {
     return <PageLoader />;
@@ -96,7 +97,7 @@ export const BookDetail = () => {
 
         <CommentForm />
 
-        {comments.length < 1 && (
+        {commentTree.length === 0 ? (
           <>
             <img
               src={CommentIllustration}
@@ -107,6 +108,8 @@ export const BookDetail = () => {
               Todavía no hay comentarios publicados para este libro
             </p>
           </>
+        ) : (
+          <CommentList comments={commentTree} />
         )}
       </div>
     </section>

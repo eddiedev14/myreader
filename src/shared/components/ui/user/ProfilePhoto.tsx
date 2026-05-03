@@ -1,19 +1,17 @@
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import type { UserDoc } from "@/features/auth/types/user.types";
-import { useState } from "react";
+
+import { memo, useState } from "react";
 
 interface ProfilePhotoProps {
   anotherUser?: UserDoc | null;
 }
 
-export const ProfilePhoto = ({ anotherUser }: ProfilePhotoProps) => {
-  //* Contexts
+export const ProfilePhoto = memo(({ anotherUser }: ProfilePhotoProps) => {
   const { user } = useAuth();
 
-  //* States
   const [imageError, setImageError] = useState(false);
 
-  //* Variables
   const targetUser = anotherUser || user;
 
   if (targetUser?.photoURL && !imageError) {
@@ -32,4 +30,4 @@ export const ProfilePhoto = ({ anotherUser }: ProfilePhotoProps) => {
       {targetUser?.username?.charAt(0).toUpperCase()}
     </div>
   );
-};
+});
