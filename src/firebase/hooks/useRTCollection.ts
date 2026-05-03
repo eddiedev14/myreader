@@ -27,7 +27,7 @@ export const useRealTimeCollection = <T>(node: string) => {
   // Si se pasa una id, se apunta a un nodo hijo específico, por ejemplo "tasks/task1"
   // Si no se pasa una id, se apunta al nodo completo, por ejemplo "tasks"
   const getRef = (id?: string): DatabaseReference =>
-    id ? ref(realtimeDB, `${node}/${id}`) : ref(realtimeDB);
+    id ? ref(realtimeDB, `${node}/${id}`) : ref(realtimeDB, node);
 
   //* Effects (onValue)
   useEffect(() => {

@@ -1,23 +1,37 @@
 import { useState } from "react";
-import type CommentNode from "../algorithms/tree/CommentNode";
+import { useParams } from "react-router-dom";
 
 import { ProfilePhoto } from "@/shared/components/ui/user/ProfilePhoto";
 import { Button } from "@/shared/components/shadcn/button";
 
 import { CommentForm } from "./CommentForm";
 import { CommentList } from "./CommentList";
+import type CommentNode from "../algorithms/tree/CommentNode";
 import { formatRelativeTime } from "../utils/utils";
+
+import { useAuth } from "@/features/auth/hooks/useAuth";
+import { useDeleteComment } from "../hooks/useDeleteComment";
 
 interface CommentCardProps {
   node: CommentNode;
 }
 
 export const CommentCard = ({ node }: CommentCardProps) => {
+  //* URL Segments
+  const { bookID } = useParams();
+
+  //* Contexts
+  const { getUserId } = useAuth();
+
   //* States
   const [showReplyForm, setShowReplyForm] = useState(false);
 
+  //* Custom Hooks
+  const { handleDelete } = useDeleteComment(bookID);
+
   //* Destructuring
   const { comment, replies } = node;
+  const isOwner = getUserId() === comment.creatorId;
 
   return (
     <div className="flex flex-col gap-4 max-w-2xl">
@@ -58,6 +72,15 @@ export const CommentCard = ({ node }: CommentCardProps) => {
                 onClick={() => setShowReplyForm(false)}
               >
                 Cancelar
+              </Button>
+            )}
+            {isOwner && (
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={() => handleDelete(node)}
+              >
+                Eliminar
               </Button>
             )}
           </div>
