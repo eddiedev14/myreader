@@ -5,10 +5,11 @@ import LibraryIllustration from "../assets/illustrations/library.svg";
 import CommentIllustration from "../assets/illustrations/comment.svg";
 import { Button } from "@/shared/components/shadcn/button";
 import { Link } from "react-router-dom";
+import { CommentForm } from "@/features/books/components/CommentForm";
+import { ProfilePhoto } from "@/shared/components/ui/user/ProfilePhoto";
 
 export const BookDetail = () => {
-  const { book, creator, comments, loading, imageError, setImageError } =
-    useBookDetail();
+  const { book, creator, comments, loading } = useBookDetail();
 
   if (loading) {
     return <PageLoader />;
@@ -77,19 +78,7 @@ export const BookDetail = () => {
             Agregar a mi Dashboard
           </Button>
           <div className="w-full max-w-md mt-6 p-4 flex gap-2 border border-gray-300 rounded-xl">
-            {creator?.photoURL && !imageError ? (
-              <img
-                src={creator.photoURL}
-                alt="Profile"
-                className="w-8 h-8 rounded-full object-cover shrink-0"
-                onError={() => setImageError(true)}
-              />
-            ) : (
-              <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-semibold text-sm shrink-0">
-                {creator?.username?.charAt(0).toUpperCase() || "U"}
-              </div>
-            )}
-
+            <ProfilePhoto anotherUser={creator} />
             <div>
               <h4 className="font-medium text-xs text-gray-700">Subido por:</h4>
               <span className="font-semibold text-sm">{creator?.username}</span>
@@ -104,6 +93,9 @@ export const BookDetail = () => {
           Escucha las opiniones de otros lectores y comparte la tuya sobre el
           libro <span className="font-bold">"{book.title}"</span> en MyReader
         </p>
+
+        <CommentForm />
+
         {comments.length < 1 && (
           <>
             <img
