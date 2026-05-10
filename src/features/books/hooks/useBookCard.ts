@@ -9,6 +9,10 @@ const statesMessages = {
     text: "AGENDADO",
     className: "bg-gray-500 text-white",
   },
+  "EN COLA": {
+    text: "EN COLA",
+    className: "bg-yellow-500 text-white",
+  },
   "EN LECTURA": {
     text: "LEYENDO",
     className: "bg-blue-500 text-white",

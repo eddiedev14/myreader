@@ -54,12 +54,18 @@ export function BookCard({ book }: BookCardProps) {
 
       {hasState(book) && (
         <div className="mt-2 flex flex-col gap-2">
-          <Button>
-            <i className="ri-add-circle-fill"></i> Cola de Lectura
-          </Button>
-          <Button variant="blue">
-            <i className="ri-add-circle-fill"></i> Ver Notas
-          </Button>
+          {(book.status === "AGENDADO" || book.status === "COMPLETADO") && (
+            <Button>
+              <i className="ri-add-circle-fill"></i> Cola de Lectura
+            </Button>
+          )}
+
+          {(book.status === "EN LECTURA" || book.status === "COMPLETADO") && (
+            <Button>
+              <i className="ri-sticky-note-fill"></i>
+              {book.status === "EN LECTURA" ? "Tomar Apuntes" : "Ver Apuntes"}
+            </Button>
+          )}
         </div>
       )}
     </div>
