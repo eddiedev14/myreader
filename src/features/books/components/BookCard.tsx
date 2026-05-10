@@ -1,18 +1,46 @@
 import type { Book } from "../interfaces/book.interface";
-import { useNavigate } from "react-router-dom";
+import type { BookDashboard } from "@/features/dashboard/interfaces/book.interface";
+import { type BookDashboardStates } from "../../dashboard/types/book.types";
+import { Button } from "@/shared/components/shadcn/button";
+import { useBookCard } from "../hooks/useBookCard";
+import { hasState } from "../utils/utils";
+import type { MouseEvent } from "react";
 
 interface BookCardProps {
-  book: Book;
+  book: Book | BookDashboard;
 }
 
 export function BookCard({ book }: BookCardProps) {
-  const navigate = useNavigate();
+  const { statesMessages, handleNavigateBook, handleRemoveFromDashboard } =
+    useBookCard();
 
   return (
     <div
-      className="cursor-pointer rounded-lg  p-4 shadow-sm hover:shadow-md transition"
-      onClick={() => navigate(`/library/${book.id}`)}
+      className="cursor-pointer rounded-lg  p-4 shadow-sm hover:shadow-md transition relative"
+      onClick={() => handleNavigateBook(book.id)}
     >
+      {hasState(book) && (
+        <>
+          <div
+            className={`absolute top-6 right-6 px-2 py-1 text-xs font-semibold rounded ${
+              statesMessages[book.status as BookDashboardStates].className
+            }`}
+          >
+            {statesMessages[book.status as BookDashboardStates].text}
+          </div>
+
+          <Button
+            asChild
+            onClick={(e: MouseEvent<HTMLButtonElement>) =>
+              handleRemoveFromDashboard(e, book.id)
+            }
+            className="absolute top-6 left-6 size-7 flex items-center justify-center bg-red-500 text-white text-xs font-semibold rounded-full"
+          >
+            <i className="ri-delete-bin-7-fill"></i>
+          </Button>
+        </>
+      )}
+
       <img
         src={book.bookCover}
         alt={book.title}
@@ -23,6 +51,17 @@ export function BookCard({ book }: BookCardProps) {
       <p className="text-sm text-gray-500 capitalize">
         {book.mainGenre.replaceAll("_", " ")}
       </p>
+
+      {hasState(book) && (
+        <div className="mt-2 flex flex-col gap-2">
+          <Button>
+            <i className="ri-add-circle-fill"></i> Cola de Lectura
+          </Button>
+          <Button variant="blue">
+            <i className="ri-add-circle-fill"></i> Ver Notas
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

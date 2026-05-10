@@ -1,4 +1,6 @@
 import Node from "../algorithms/doubleCircularLinkedList/Node";
+import type { Book } from "../interfaces/book.interface";
+import type { BookDashboard } from "@/features/dashboard/interfaces/book.interface";
 
 export function getVisibleNodes(
   current: Node,
@@ -76,3 +78,7 @@ export const formatRelativeTime = (timestamp: number): string => {
   const years = Math.floor(days / 365);
   return `hace ${years} año${years > 1 ? "s" : ""}`;
 };
+
+export function hasState(book: Book | BookDashboard): book is BookDashboard {
+  return "status" in book;
+}

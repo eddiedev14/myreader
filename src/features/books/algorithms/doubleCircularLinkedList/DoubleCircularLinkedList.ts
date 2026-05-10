@@ -1,16 +1,17 @@
 import Node from "./Node";
 import type { Book } from "../../interfaces/book.interface";
+import type { BookDashboard } from "@/features/dashboard/interfaces/book.interface";
 import { PAGE_SIZE } from "../../constants/book.constants";
 
 class DoubleCircularLinkedList {
   head: Node | null = null;
 
-  constructor(books: Book[]) {
+  constructor(books: Book[] | BookDashboard[]) {
     if (!books.length) return;
 
     const totalPages = Math.ceil(books.length / PAGE_SIZE);
 
-    let first = new Node(1, books.slice(0, PAGE_SIZE));
+    const first = new Node(1, books.slice(0, PAGE_SIZE));
     this.head = first;
     let prev = first;
 
@@ -25,6 +26,21 @@ class DoubleCircularLinkedList {
     // cerrar la lista circular
     prev.next = first;
     first.prev = prev;
+  }
+
+  getNode(page: number): Node | null {
+    if (!this.head) return null;
+    let current = this.head;
+
+    do {
+      if (current.page === page) {
+        return current;
+      }
+
+      current = current.next!;
+    } while (current !== this.head);
+
+    return null;
   }
 
   next(current: Node): Node {

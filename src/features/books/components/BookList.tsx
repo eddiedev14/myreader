@@ -1,22 +1,26 @@
 import { useState, useMemo, useEffect } from "react";
 import { BookCard } from "./BookCard";
 import DoubleCircularLinkedList from "../algorithms/doubleCircularLinkedList/DoubleCircularLinkedList";
-import Node from "../algorithms/doubleCircularLinkedList/Node";
 import { getVisibleNodes } from "../utils/utils";
 import { PAGE_SIZE, VISIBLE_PAGES } from "../constants/book.constants";
 import type { Book } from "../interfaces/book.interface";
+import type { BookDashboard } from "@/features/dashboard/interfaces/book.interface";
 
 interface Props {
-  books?: Book[];
+  books?: Book[] | BookDashboard[];
 }
 
 export function BookList({ books = [] }: Props) {
   const booksList = useMemo(() => new DoubleCircularLinkedList(books), [books]);
-  const [currentNode, setCurrentNode] = useState<Node | null>(booksList.head);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const currentNode = useMemo(() => {
+    return booksList.getNode(currentPage);
+  }, [booksList, currentPage]);
 
   useEffect(() => {
-    setCurrentNode(booksList.head);
-  }, [booksList]);
+    setCurrentPage(1);
+  }, [books]);
 
   if (!books.length) {
     return (
@@ -30,7 +34,7 @@ export function BookList({ books = [] }: Props) {
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
         {currentNode.books.map((book) => (
           <BookCard key={book.id} book={book} />
         ))}
@@ -38,8 +42,8 @@ export function BookList({ books = [] }: Props) {
 
       <div className="flex justify-center gap-2">
         <button
-          onClick={() => setCurrentNode(booksList.prev(currentNode))}
-          className="px-3 py-1 border border-gray-400 rounded"
+          onClick={() => setCurrentPage(currentNode.prev!.page)}
+          className="px-3 py-1 border border-gray-400 rounded cursor-pointer"
         >
           <i className="ri-arrow-drop-left-line" />
         </button>
@@ -47,8 +51,8 @@ export function BookList({ books = [] }: Props) {
         {getVisibleNodes(currentNode, totalPages, VISIBLE_PAGES).map((node) => (
           <button
             key={node.page}
-            onClick={() => setCurrentNode(node)}
-            className={`px-3 py-1 rounded 
+            onClick={() => setCurrentPage(node.page)}
+            className={`px-3 py-1 rounded cursor-pointer
               ${
                 currentNode.page === node.page
                   ? "bg-orange-500 text-white"
@@ -60,8 +64,8 @@ export function BookList({ books = [] }: Props) {
         ))}
 
         <button
-          onClick={() => setCurrentNode(booksList.next(currentNode))}
-          className="px-3 py-1 border border-gray-400 rounded"
+          onClick={() => setCurrentPage(currentNode.next!.page)}
+          className="px-3 py-1 border border-gray-400 rounded cursor-pointer"
         >
           <i className="ri-arrow-drop-right-line" />
         </button>
