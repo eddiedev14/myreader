@@ -33,6 +33,11 @@ const items: IItem[] = [
     url: "/library",
     icon: "ri-book-marked-fill",
   },
+  {
+    title: "Cola de Lectura",
+    url: "/reading-queue",
+    icon: "ri-sort-desc",
+  },
 ];
 
 export function AppSidebar() {
