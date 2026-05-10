@@ -20,8 +20,9 @@ export const useDashboardState = () => {
 
   //* Effects
   useEffect(() => {
+    if (!userId) return;
     getAll();
-  }, []);
+  }, [userId]);
 
   //* Functions
   // ? Agregar libro al dashboard del usuario
