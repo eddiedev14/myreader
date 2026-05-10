@@ -16,13 +16,14 @@ export const useBookDetail = () => {
 
   //* Context
   const { getBookById } = useBook();
-  const { addToDashboard } = useDashboard();
+  const { addToDashboard, isInDashboard } = useDashboard();
 
   //* Collection Hook
   const { getById } = useCollection<UserDoc>("users");
 
   //* States
   const [book, setBook] = useState<Book | null>(null);
+  const [isAlreadyInDashboard, setIsAlreadyInDashboard] = useState(false);
   const [creator, setCreator] = useState<UserDoc | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -38,6 +39,9 @@ export const useBookDetail = () => {
 
         const data = await getBookById(bookID);
         setBook(data);
+
+        const alreadyInDashboard = await isInDashboard(bookID);
+        setIsAlreadyInDashboard(alreadyInDashboard);
 
         if (data?.creatorId) {
           const creatorData = await getById(data.creatorId);
@@ -61,6 +65,7 @@ export const useBookDetail = () => {
         return;
       }
 
+      setIsAlreadyInDashboard(true);
       toast.success("¡Libro agregado al dashboard!");
     }
   };
@@ -70,6 +75,8 @@ export const useBookDetail = () => {
     creator,
     commentTree,
     loading,
+    isAlreadyInDashboard,
+
     handleAddToDashboard,
   };
 };

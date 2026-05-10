@@ -10,8 +10,14 @@ import { ProfilePhoto } from "@/shared/components/ui/user/ProfilePhoto";
 import { CommentList } from "@/features/books/components/CommentList";
 
 export const BookDetail = () => {
-  const { book, creator, commentTree, loading, handleAddToDashboard } =
-    useBookDetail();
+  const {
+    book,
+    creator,
+    commentTree,
+    loading,
+    isAlreadyInDashboard,
+    handleAddToDashboard,
+  } = useBookDetail();
 
   if (loading) {
     return <PageLoader />;
@@ -76,14 +82,21 @@ export const BookDetail = () => {
               {book.synopsis}
             </p>
           </div>
-          <Button
-            size="lg"
-            variant="default"
-            className="mt-4"
-            onClick={handleAddToDashboard}
-          >
-            Agregar a mi Dashboard
-          </Button>
+          {!isAlreadyInDashboard ? (
+            <Button
+              size="lg"
+              variant="default"
+              className="mt-4"
+              onClick={handleAddToDashboard}
+            >
+              Agregar a mi Dashboard
+            </Button>
+          ) : (
+            <p className="mt-4 text-sm font-medium text-green-600">
+              <i className="ri-checkbox-circle-fill"></i> Este libro ya está en
+              tu dashboard
+            </p>
+          )}
           <div className="w-full max-w-md mt-6 p-4 flex gap-2 border border-gray-300 rounded-xl">
             <ProfilePhoto anotherUser={creator} />
             <div>

@@ -12,6 +12,7 @@ export const useDashboardState = () => {
     results: books,
     isPending: loading,
     error,
+    getById,
     setById,
   } = useCollection<BookDashboard>(`users/${userId}/books`);
 
@@ -21,6 +22,12 @@ export const useDashboardState = () => {
     try {
       if (!user || !userId) {
         return "Usuario no autenticado";
+      }
+
+      // Revisar si el libro ya está en el dashboard
+      const alreadyInDashboard = await isInDashboard(bookId);
+      if (alreadyInDashboard) {
+        return "Este libro ya está en tu dashboard";
       }
 
       const payload: BookDashboard = {
@@ -42,11 +49,18 @@ export const useDashboardState = () => {
     }
   };
 
+  //? Revisar si un libro ya está en el dashboard del usuario
+  const isInDashboard = async (bookId: string): Promise<boolean> => {
+    const existingBook = await getById(bookId);
+    return !!existingBook;
+  };
+
   return {
     books,
     loading,
     error,
 
     addToDashboard,
+    isInDashboard,
   };
 };
