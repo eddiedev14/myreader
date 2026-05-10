@@ -1,6 +1,9 @@
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useCollection } from "@/firebase/hooks/useCollection";
-import type { BookDashboard } from "@/features/books/interfaces/book.interface";
+import type {
+  Book,
+  BookDashboard,
+} from "@/features/books/interfaces/book.interface";
 import { useEffect } from "react";
 
 export const useDashboardState = () => {
@@ -13,38 +16,44 @@ export const useDashboardState = () => {
     results: books,
     isPending: loading,
     error,
+    suscribe,
     getById,
-    getAll,
     setById,
   } = useCollection<BookDashboard>(`users/${userId}/books`);
 
   //* Effects
   useEffect(() => {
     if (!userId) return;
-    getAll();
+    const unsubscribe = suscribe();
+    return () => unsubscribe();
   }, [userId]);
 
   //* Functions
   // ? Agregar libro al dashboard del usuario
-  const addToDashboard = async (bookId: string): Promise<string | null> => {
+  const addToDashboard = async (book: Book): Promise<string | null> => {
     try {
       if (!user || !userId) {
         return "Usuario no autenticado";
       }
 
       // Revisar si el libro ya está en el dashboard
-      const alreadyInDashboard = await isInDashboard(bookId);
+      const alreadyInDashboard = await isInDashboard(book.id);
       if (alreadyInDashboard) {
         return "Este libro ya está en tu dashboard";
       }
 
       const payload: BookDashboard = {
+        id: book.id,
+        title: book.title,
+        authors: book.authors,
+        bookCover: book.bookCover,
+        mainGenre: book.mainGenre,
         status: "AGENDADO",
         startedAt: null,
         finishedAt: null,
       };
 
-      const bookAdded = await setById(bookId, payload);
+      const bookAdded = await setById(book.id, payload);
 
       if (!bookAdded) {
         return "Error al añadir el libro a tu dashboard";

@@ -1,8 +1,9 @@
 import type { Book } from "../interfaces/book.interface";
+import type { BookDashboard } from "@/features/dashboard/interfaces/book.interface";
 import { useNavigate } from "react-router-dom";
 
 interface BookCardProps {
-  book: Book;
+  book: Book | BookDashboard;
 }
 
 export function BookCard({ book }: BookCardProps) {

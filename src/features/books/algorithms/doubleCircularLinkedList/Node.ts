@@ -1,4 +1,5 @@
-import type { Book, BookDashboard } from "../../interfaces/book.interface";
+import type { Book } from "../../interfaces/book.interface";
+import type { BookDashboard } from "@/features/dashboard/interfaces/book.interface";
 
 class Node {
   page: number;

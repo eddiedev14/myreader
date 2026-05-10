@@ -58,7 +58,7 @@ export const useBookDetail = () => {
   //* Handlers
   const handleAddToDashboard = async () => {
     if (book) {
-      const error = await addToDashboard(bookID!);
+      const error = await addToDashboard(book);
 
       if (error) {
         toast.error(error);
