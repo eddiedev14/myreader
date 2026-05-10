@@ -30,7 +30,7 @@ export function BookList({ books = [] }: Props) {
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
         {currentNode.books.map((book) => (
           <BookCard key={book.id} book={book} />
         ))}
@@ -39,7 +39,7 @@ export function BookList({ books = [] }: Props) {
       <div className="flex justify-center gap-2">
         <button
           onClick={() => setCurrentNode(booksList.prev(currentNode))}
-          className="px-3 py-1 border border-gray-400 rounded"
+          className="px-3 py-1 border border-gray-400 rounded cursor-pointer"
         >
           <i className="ri-arrow-drop-left-line" />
         </button>
@@ -48,7 +48,7 @@ export function BookList({ books = [] }: Props) {
           <button
             key={node.page}
             onClick={() => setCurrentNode(node)}
-            className={`px-3 py-1 rounded 
+            className={`px-3 py-1 rounded cursor-pointer
               ${
                 currentNode.page === node.page
                   ? "bg-orange-500 text-white"
@@ -61,7 +61,7 @@ export function BookList({ books = [] }: Props) {
 
         <button
           onClick={() => setCurrentNode(booksList.next(currentNode))}
-          className="px-3 py-1 border border-gray-400 rounded"
+          className="px-3 py-1 border border-gray-400 rounded cursor-pointer"
         >
           <i className="ri-arrow-drop-right-line" />
         </button>
