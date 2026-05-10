@@ -1,6 +1,7 @@
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useCollection } from "@/firebase/hooks/useCollection";
 import type { BookDashboard } from "@/features/books/interfaces/book.interface";
+import { useEffect } from "react";
 
 export const useDashboardState = () => {
   //* Auth
@@ -13,8 +14,14 @@ export const useDashboardState = () => {
     isPending: loading,
     error,
     getById,
+    getAll,
     setById,
   } = useCollection<BookDashboard>(`users/${userId}/books`);
+
+  //* Effects
+  useEffect(() => {
+    getAll();
+  }, []);
 
   //* Functions
   // ? Agregar libro al dashboard del usuario
@@ -57,6 +64,9 @@ export const useDashboardState = () => {
 
   return {
     books,
+    addedBooks: books.filter((book) => book.status === "AGENDADO"),
+    booksInQueue: 0, //TODO: Falta implementar en la siguiente HU
+    completedBooks: books.filter((book) => book.status === "COMPLETADO"),
     loading,
     error,
 
