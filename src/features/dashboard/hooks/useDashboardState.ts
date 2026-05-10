@@ -1,9 +1,7 @@
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useCollection } from "@/firebase/hooks/useCollection";
-import type {
-  Book,
-  BookDashboard,
-} from "@/features/books/interfaces/book.interface";
+import type { Book } from "@/features/books/interfaces/book.interface";
+import type { BookDashboard } from "../interfaces/book.interface";
 import { useEffect } from "react";
 
 export const useDashboardState = () => {
@@ -19,6 +17,7 @@ export const useDashboardState = () => {
     suscribe,
     getById,
     setById,
+    remove,
   } = useCollection<BookDashboard>(`users/${userId}/books`);
 
   //* Effects
@@ -72,6 +71,33 @@ export const useDashboardState = () => {
     return !!existingBook;
   };
 
+  // ? Eliminar libro del dashboard del usuario
+  const removeFromDashboard = async (
+    bookId: string,
+  ): Promise<string | null> => {
+    try {
+      if (!user || !userId) {
+        return "Usuario no autenticado";
+      }
+
+      const bookExists = await isInDashboard(bookId);
+      if (!bookExists) {
+        return "Este libro no está en tu dashboard";
+      }
+
+      const bookRemoved = await remove(bookId);
+
+      if (!bookRemoved) {
+        return "Error al eliminar el libro de tu dashboard";
+      }
+
+      return null;
+    } catch (error) {
+      console.error("Error removing the book:", error);
+      return "Error al eliminar el libro de tu dashboard";
+    }
+  };
+
   return {
     books,
     addedBooks: books.filter((book) => book.status === "AGENDADO"),
@@ -82,5 +108,6 @@ export const useDashboardState = () => {
 
     addToDashboard,
     isInDashboard,
+    removeFromDashboard,
   };
 };
