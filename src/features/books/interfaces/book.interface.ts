@@ -21,7 +21,6 @@ export interface Book {
 
 export interface BookDashboard {
   status: BookDashboardStates;
-  addedAt: Date;
   startedAt: Date | null;
   finishedAt: Date | null;
 }
