@@ -1,4 +1,5 @@
 import type { BookGenres } from "../data/BookGenre";
+import type { BookDashboardStates } from "../types/book.types";
 
 export interface Book {
   // Id para firestore
@@ -16,4 +17,11 @@ export interface Book {
   // Info de creación
   creatorId: string;
   createdAt: number;
+}
+
+export interface BookDashboard {
+  status: BookDashboardStates;
+  addedAt: Date;
+  startedAt: Date | null;
+  finishedAt: Date | null;
 }
