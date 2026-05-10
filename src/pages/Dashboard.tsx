@@ -43,7 +43,6 @@ export const Dashboard = () => {
         <BookList books={books} />
 
         {/* Cola de lectura */}
-        <div></div>
       </section>
     </>
   );
