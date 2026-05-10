@@ -3,6 +3,7 @@ import { useDashboard } from "@/features/dashboard/hooks/useDashboard";
 import { Header } from "@/shared/components/ui/sections/Header";
 import { DashboardStat } from "@/features/dashboard/components/DashboardStat";
 import { BookList } from "@/features/books/components/BookList";
+import { Card } from "@/shared/components/ui/elements/Card";
 
 export const Dashboard = () => {
   //* Contexts
@@ -42,7 +43,11 @@ export const Dashboard = () => {
         {/* Lista de libros */}
         <BookList books={books} />
 
-        {/* Cola de lectura */}
+        {/* Cards */}
+        <div className="flex flex-col gap-4">
+          <Card icon="ri-add-circle-fill" title="Mis Colecciones" />
+          <Card icon="ri-sticky-note-fill" title="Cola de Lectura" />
+        </div>
       </section>
     </>
   );

@@ -16,7 +16,7 @@ export function BookCard({ book }: BookCardProps) {
 
   return (
     <div
-      className="cursor-pointer rounded-lg  p-4 shadow-sm hover:shadow-md transition relative"
+      className="w-48 cursor-pointer rounded-lg  p-4 shadow-sm hover:shadow-md transition relative"
       onClick={() => handleNavigateBook(book.id)}
     >
       {hasState(book) && (
