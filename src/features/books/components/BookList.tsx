@@ -34,7 +34,7 @@ export function BookList({ books = [] }: Props) {
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+      <div className="flex flex-wrap gap-4">
         {currentNode.books.map((book) => (
           <BookCard key={book.id} book={book} />
         ))}
