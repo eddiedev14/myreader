@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useBook } from "./useBook";
 import { Trie } from "../algorithms/tries/Trie";
 import type { Book } from "../interfaces/book.interface";
@@ -10,7 +10,7 @@ export const useBookSearch = () => {
   const [open, setOpen] = useState(false);
 
   // Creación del unico trie
-  const [trie] = useState(() => {
+  const trie = useMemo(() => {
     const newTrie = new Trie();
 
     (books ?? []).forEach((book) => {
@@ -18,7 +18,7 @@ export const useBookSearch = () => {
     });
 
     return newTrie;
-  });
+  }, [books]);
 
   // Busqueda de resultados
   const searchResults = !query ? [] : trie.searchByPrefix(query);

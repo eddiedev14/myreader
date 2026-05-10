@@ -14,14 +14,15 @@ export const useBookState = () => {
     results: books,
     isPending: loading,
     error,
-    getAll,
+    suscribe,
     getById,
     add,
   } = useCollection<Book>("books");
 
   //* Effects
   useEffect(() => {
-    getAll();
+    const unsubscribe = suscribe();
+    return () => unsubscribe?.();
   }, []);
 
   //* Functions
@@ -44,9 +45,6 @@ export const useBookState = () => {
       if (!id) {
         return "Error al crear el libro";
       }
-
-      // Refetch para actualizar la lista
-      await getAll();
 
       return null;
     } catch (error) {
