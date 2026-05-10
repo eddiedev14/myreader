@@ -10,7 +10,8 @@ import { ProfilePhoto } from "@/shared/components/ui/user/ProfilePhoto";
 import { CommentList } from "@/features/books/components/CommentList";
 
 export const BookDetail = () => {
-  const { book, creator, commentTree, loading } = useBookDetail();
+  const { book, creator, commentTree, loading, handleAddToDashboard } =
+    useBookDetail();
 
   if (loading) {
     return <PageLoader />;
@@ -75,7 +76,12 @@ export const BookDetail = () => {
               {book.synopsis}
             </p>
           </div>
-          <Button size="lg" variant="default" className="mt-4">
+          <Button
+            size="lg"
+            variant="default"
+            className="mt-4"
+            onClick={handleAddToDashboard}
+          >
             Agregar a mi Dashboard
           </Button>
           <div className="w-full max-w-md mt-6 p-4 flex gap-2 border border-gray-300 rounded-xl">

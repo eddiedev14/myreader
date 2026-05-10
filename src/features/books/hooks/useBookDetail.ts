@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useBook } from "./useBook";
+import { useDashboard } from "@/features/dashboard/hooks/useDashboard";
 import type { Book } from "../interfaces/book.interface";
 
 import { useCollection } from "@/firebase/hooks/useCollection";
 import { useComments } from "./useComments";
 
 import type { UserDoc } from "@/features/auth/types/user.types";
+import { toast } from "react-toastify";
 
 export const useBookDetail = () => {
   //* URL Segments
@@ -14,6 +16,7 @@ export const useBookDetail = () => {
 
   //* Context
   const { getBookById } = useBook();
+  const { addToDashboard } = useDashboard();
 
   //* Collection Hook
   const { getById } = useCollection<UserDoc>("users");
@@ -48,10 +51,25 @@ export const useBookDetail = () => {
     fetchBook();
   }, [bookID]);
 
+  //* Handlers
+  const handleAddToDashboard = async () => {
+    if (book) {
+      const error = await addToDashboard(bookID!);
+
+      if (error) {
+        toast.error(error);
+        return;
+      }
+
+      toast.success("¡Libro agregado al dashboard!");
+    }
+  };
+
   return {
     book,
     creator,
     commentTree,
     loading,
+    handleAddToDashboard,
   };
 };
