@@ -1,5 +1,6 @@
 import Node from "./Node";
-import type { Book, BookDashboard } from "../../interfaces/book.interface";
+import type { Book } from "../../interfaces/book.interface";
+import type { BookDashboard } from "@/features/dashboard/interfaces/book.interface";
 import { PAGE_SIZE } from "../../constants/book.constants";
 
 class DoubleCircularLinkedList {

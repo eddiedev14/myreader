@@ -2,11 +2,12 @@ import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useDashboard } from "@/features/dashboard/hooks/useDashboard";
 import { Header } from "@/shared/components/ui/sections/Header";
 import { DashboardStat } from "@/features/dashboard/components/DashboardStat";
+import { BookList } from "@/features/books/components/BookList";
 
 export const Dashboard = () => {
   //* Contexts
   const { user } = useAuth();
-  const { addedBooks, booksInQueue, completedBooks } = useDashboard();
+  const { books, addedBooks, booksInQueue, completedBooks } = useDashboard();
 
   return (
     <>
@@ -35,6 +36,14 @@ export const Dashboard = () => {
           icon="ri-checkbox-circle-fill"
           color="blue"
         />
+      </section>
+
+      <section className="grid grid-cols-[1fr_auto] gap-4">
+        {/* Lista de libros */}
+        <BookList books={books} />
+
+        {/* Cola de lectura */}
+        <div></div>
       </section>
     </>
   );
