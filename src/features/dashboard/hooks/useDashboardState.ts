@@ -50,8 +50,8 @@ export const useDashboardState = () => {
         mainGenre: book.mainGenre,
         status: "AGENDADO",
         queuePosition: null,
-        startedAt: null,
-        finishedAt: null,
+        startDate: null,
+        endDate: null,
       };
 
       const bookAdded = await setById(book.id, payload);
