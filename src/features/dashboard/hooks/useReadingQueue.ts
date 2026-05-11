@@ -100,10 +100,39 @@ export const useReadingQueue = () => {
     }
   };
 
+  //? Función para iniciar la lectura de un libro, se actualiza el estado del libro a "EN LECTURA" y se actualiza startDate
+  const startReading = async (book: BookDashboard): Promise<string | null> => {
+    try {
+      if (book.status !== "EN COLA") {
+        return "El libro no está en cola o ya está en lectura";
+      }
+
+      if (book.queuePosition !== 1) {
+        return "Solo puedes iniciar la lectura del primer libro en la cola";
+      }
+
+      const updated = await updateBook(book.id, {
+        ...book,
+        status: "EN LECTURA",
+        startDate: new Date().toISOString(),
+      });
+
+      if (!updated) {
+        return "Error al iniciar la lectura";
+      }
+
+      return null;
+    } catch (error) {
+      console.error(error);
+      return "Error al iniciar la lectura";
+    }
+  };
+
   return {
     queue,
 
     addToQueue,
     removeFromQueue,
+    startReading,
   };
 };
