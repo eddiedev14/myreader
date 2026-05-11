@@ -7,8 +7,12 @@ interface QueueItemProps {
 }
 
 export const QueueItem = ({ book }: QueueItemProps) => {
-  const { handleRemoveFromQueue, handleStartReading, handleCompleteReading } =
-    useQueueItem(book);
+  const {
+    handleRemoveFromQueue,
+    handleStartReading,
+    handleCompleteReading,
+    handleStopReading,
+  } = useQueueItem(book);
 
   return (
     <div className="grid grid-cols-[auto_1fr] gap-4 bg-white border border-gray-200 shadow-md py-4 px-6 rounded relative">
@@ -49,7 +53,11 @@ export const QueueItem = ({ book }: QueueItemProps) => {
               <Button variant="secondary" size="sm">
                 Tomar Apuntes
               </Button>
-              <Button variant="destructive" size="sm">
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={handleStopReading}
+              >
                 Pausar Lectura
               </Button>
             </>

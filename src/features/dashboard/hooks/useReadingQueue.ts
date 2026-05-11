@@ -167,6 +167,34 @@ export const useReadingQueue = () => {
     }
   };
 
+  //? Función para pausar la lectura de un libro, se actualiza el estado del libro a "EN COLA"
+  const stopReading = async (book: BookDashboard): Promise<string | null> => {
+    try {
+      if (book.status !== "EN LECTURA") {
+        return "El libro no está en lectura";
+      }
+
+      if (book.queuePosition !== 1) {
+        return "Solo puedes pausar la lectura del primer libro en la cola";
+      }
+
+      const updated = await updateBook(book.id, {
+        ...book,
+        status: "EN COLA",
+        startDate: null,
+      });
+
+      if (!updated) {
+        return "Error al pausar la lectura";
+      }
+
+      return null;
+    } catch (error) {
+      console.error(error);
+      return "Error al pausar la lectura";
+    }
+  };
+
   return {
     queue,
 
@@ -174,5 +202,6 @@ export const useReadingQueue = () => {
     removeFromQueue,
     startReading,
     completeReading,
+    stopReading,
   };
 };
