@@ -52,7 +52,7 @@ export const useBookCard = (book: BookDashboard) => {
       cancelButtonText: `Cancelar`,
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const error = await removeFromDashboard(book.id);
+        const error = await removeFromDashboard(book);
         if (error) {
           toast.error(error);
           return;
