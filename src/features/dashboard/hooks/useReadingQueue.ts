@@ -29,6 +29,7 @@ export const useReadingQueue = () => {
   }, [queueBooks]);
 
   //* Functions
+  //? Función para agregar un libro a la cola, se actualiza el estado del libro a "EN COLA" y se le asigna una posición en la cola
   const addToQueue = async (book: BookDashboard): Promise<string | null> => {
     try {
       if (book.status === "EN COLA" || book.status === "EN LECTURA") {
@@ -52,9 +53,57 @@ export const useReadingQueue = () => {
     }
   };
 
+  //? Función para eliminar un libro de la cola, se actualiza el estado del libro a "AGENDADO" y se le asigna una posición nula, además se reorganizan las posiciones de los libros que estaban detrás en la cola
+  const removeFromQueue = async (
+    book: BookDashboard,
+  ): Promise<string | null> => {
+    try {
+      if (book.status !== "EN COLA" && book.status !== "EN LECTURA") {
+        return "El libro no está en cola";
+      }
+
+      if (book.status === "EN LECTURA") {
+        return "No puedes eliminar un libro que estás leyendo, primero debes completarlo o pausarlo";
+      }
+
+      const removedPosition = book.queuePosition;
+
+      //? 1. Sacar libro de cola
+      const updated = await updateBook(book.id, {
+        ...book,
+        status: "AGENDADO",
+        queuePosition: null,
+      });
+
+      if (!updated) {
+        return "Error al eliminar el libro de la cola";
+      }
+
+      //? 2. Reorganizar posiciones
+      const booksToReorder = queueBooks.filter(
+        (queueBook) => (queueBook.queuePosition ?? 0) > (removedPosition ?? 0),
+      );
+
+      await Promise.all(
+        booksToReorder.map((queueBook) =>
+          updateBook(queueBook.id, {
+            ...queueBook,
+            queuePosition: (queueBook.queuePosition ?? 0) - 1,
+          }),
+        ),
+      );
+
+      return null;
+    } catch (error) {
+      console.error("Error removing the book:", error);
+      return "Error al eliminar el libro de la cola";
+    }
+  };
+
   return {
     queue,
 
     addToQueue,
+    removeFromQueue,
   };
 };
