@@ -17,6 +17,7 @@ export const useDashboardState = () => {
     suscribe,
     getById,
     setById,
+    update,
     remove,
   } = useCollection<BookDashboard>(`users/${userId}/books`);
 
@@ -48,6 +49,7 @@ export const useDashboardState = () => {
         bookCover: book.bookCover,
         mainGenre: book.mainGenre,
         status: "AGENDADO",
+        queuePosition: null,
         startedAt: null,
         finishedAt: null,
       };
@@ -108,6 +110,7 @@ export const useDashboardState = () => {
 
     addToDashboard,
     isInDashboard,
+    updateBook: update,
     removeFromDashboard,
   };
 };
