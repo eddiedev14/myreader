@@ -63,6 +63,7 @@ export const useDashboardState = () => {
         bookCover: book.bookCover,
         mainGenre: book.mainGenre,
         status: "AGENDADO",
+        previousStatus: null,
         queuePosition: null,
         startDate: null,
         endDate: null,

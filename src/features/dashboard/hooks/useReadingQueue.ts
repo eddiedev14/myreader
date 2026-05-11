@@ -39,6 +39,7 @@ export const useReadingQueue = () => {
       const updated = await updateBook(book.id, {
         ...book,
         status: "EN COLA",
+        previousStatus: book.status,
         queuePosition: queue.size() + 1,
       });
 
@@ -71,7 +72,8 @@ export const useReadingQueue = () => {
       //? 1. Sacar libro de cola
       const updated = await updateBook(book.id, {
         ...book,
-        status: "AGENDADO",
+        status: book.previousStatus ?? "AGENDADO",
+        previousStatus: null,
         queuePosition: null,
       });
 
@@ -150,6 +152,7 @@ export const useReadingQueue = () => {
       const updated = await updateBook(book.id, {
         ...book,
         status: "COMPLETADO",
+        previousStatus: null,
         endDate: new Date(),
         queuePosition: null,
       });
