@@ -80,24 +80,28 @@ export const useReadingQueue = () => {
       }
 
       //? 2. Reorganizar posiciones
-      const booksToReorder = queueBooks.filter(
-        (queueBook) => (queueBook.queuePosition ?? 0) > (removedPosition ?? 0),
-      );
-
-      await Promise.all(
-        booksToReorder.map((queueBook) =>
-          updateBook(queueBook.id, {
-            ...queueBook,
-            queuePosition: (queueBook.queuePosition ?? 0) - 1,
-          }),
-        ),
-      );
-
+      await reorganizeQueue(removedPosition ?? 0);
       return null;
     } catch (error) {
       console.error("Error removing the book:", error);
       return "Error al eliminar el libro de la cola";
     }
+  };
+
+  //? Función para reorganizar las posiciones de los libros en la cola después de eliminar un libro
+  const reorganizeQueue = async (removedPosition: number) => {
+    const booksToReorder = queueBooks.filter(
+      (queueBook) => (queueBook.queuePosition ?? 0) > (removedPosition ?? 0),
+    );
+
+    await Promise.all(
+      booksToReorder.map((queueBook) =>
+        updateBook(queueBook.id, {
+          ...queueBook,
+          queuePosition: (queueBook.queuePosition ?? 0) - 1,
+        }),
+      ),
+    );
   };
 
   //? Función para iniciar la lectura de un libro, se actualiza el estado del libro a "EN LECTURA" y se actualiza startDate
@@ -114,7 +118,7 @@ export const useReadingQueue = () => {
       const updated = await updateBook(book.id, {
         ...book,
         status: "EN LECTURA",
-        startDate: new Date().toISOString(),
+        startDate: new Date(),
       });
 
       if (!updated) {
@@ -128,11 +132,47 @@ export const useReadingQueue = () => {
     }
   };
 
+  //? Función para completar la lectura de un libro, se actualiza el estado del libro a "COMPLETADO" y se actualiza endDate
+  const completeReading = async (
+    book: BookDashboard,
+  ): Promise<string | null> => {
+    try {
+      if (book.status !== "EN LECTURA") {
+        return "El libro no está en lectura";
+      }
+
+      if (book.queuePosition !== 1) {
+        return "Solo puedes completar la lectura del primer libro en la cola";
+      }
+
+      const removedPosition = book.queuePosition;
+
+      const updated = await updateBook(book.id, {
+        ...book,
+        status: "COMPLETADO",
+        endDate: new Date(),
+        queuePosition: null,
+      });
+
+      if (!updated) {
+        return "Error al completar la lectura";
+      }
+
+      //? Reorganizar la cola después de completar la lectura
+      await reorganizeQueue(removedPosition ?? 0);
+      return null;
+    } catch (error) {
+      console.error(error);
+      return "Error al completar la lectura";
+    }
+  };
+
   return {
     queue,
 
     addToQueue,
     removeFromQueue,
     startReading,
+    completeReading,
   };
 };
