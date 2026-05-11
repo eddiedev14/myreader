@@ -1,4 +1,6 @@
+import type { BookDashboard } from "@/features/dashboard/interfaces/book.interface";
 import { useDashboard } from "@/features/dashboard/hooks/useDashboard";
+import { useReadingQueue } from "@/features/dashboard/hooks/useReadingQueue";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
@@ -23,22 +25,22 @@ const statesMessages = {
   },
 };
 
-export const useBookCard = () => {
+export const useBookCard = (book: BookDashboard) => {
   //* Contexts
   const { removeFromDashboard } = useDashboard();
+
+  //* Custom hooks
+  const { queue, addToQueue } = useReadingQueue();
 
   //* Navigate
   const navigate = useNavigate();
 
   //* Handlers
-  const handleNavigateBook = (bookId: string) => {
-    navigate(`/library/${bookId}`);
+  const handleNavigateBook = () => {
+    navigate(`/library/${book.id}`);
   };
 
-  const handleRemoveFromDashboard = (
-    e: MouseEvent<HTMLButtonElement>,
-    bookId: string,
-  ) => {
+  const handleRemoveFromDashboard = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
 
     Swal.fire({
@@ -50,7 +52,7 @@ export const useBookCard = () => {
       cancelButtonText: `Cancelar`,
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const error = await removeFromDashboard(bookId);
+        const error = await removeFromDashboard(book.id);
         if (error) {
           toast.error(error);
           return;
@@ -61,9 +63,26 @@ export const useBookCard = () => {
     });
   };
 
+  const handleEnqueueBook = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+
+    if (book) {
+      const error = await addToQueue(book);
+
+      if (error) {
+        toast.error(error);
+        return;
+      }
+
+      toast.success("¡Libro agregado a la cola de lectura!");
+    }
+  };
+
   return {
+    queue,
     statesMessages,
     handleNavigateBook,
+    handleEnqueueBook,
     handleRemoveFromDashboard,
   };
 };
