@@ -21,7 +21,7 @@ export const Dashboard = () => {
       <section className="grid grid-cols-3 gap-4">
         <DashboardStat
           title="Libros Añadidos"
-          value={addedBooks.length}
+          value={addedBooks}
           icon="ri-file-marked-fill"
           color="green"
         />
@@ -33,7 +33,7 @@ export const Dashboard = () => {
         />
         <DashboardStat
           title="Libros Completados"
-          value={completedBooks.length}
+          value={completedBooks}
           icon="ri-checkbox-circle-fill"
           color="blue"
         />
