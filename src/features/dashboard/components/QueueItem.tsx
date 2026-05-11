@@ -26,7 +26,7 @@ export const QueueItem = ({ book }: QueueItemProps) => {
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-bold">{book.title}</h2>
           <span className="bg-blue-200 text-gray-800 py-1 px-2 rounded text-sm capitalize">
-            {book.mainGenre}
+            {book.mainGenre.split("_").join(" ")}
           </span>
         </div>
         <h3 className="text-gray-600 text-sm">{book.authors.join(", ")}</h3>

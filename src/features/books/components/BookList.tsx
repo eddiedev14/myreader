@@ -24,7 +24,9 @@ export function BookList({ books = [] }: Props) {
 
   if (!books.length) {
     return (
-      <p className="text-center text-gray-500">No hay libros disponibles</p>
+      <div className="w-full h-64 flex items-center justify-center bg-gray-100 rounded-lg">
+        <p className="text-gray-500">No hay libros disponibles</p>
+      </div>
     );
   }
 

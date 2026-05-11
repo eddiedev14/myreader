@@ -11,6 +11,6 @@ export interface BookDashboard {
 
   status: BookDashboardStates;
   queuePosition: number | null;
-  startedAt: Date | null;
-  finishedAt: Date | null;
+  startDate: Date | null;
+  endDate: Date | null;
 }
