@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 export const useQueueItem = (book: BookDashboard) => {
   //* Custom hooks
-  const { removeFromQueue } = useReadingQueue();
+  const { removeFromQueue, startReading } = useReadingQueue();
 
   //* Handlers
   const handleRemoveFromQueue = () => {
@@ -29,7 +29,18 @@ export const useQueueItem = (book: BookDashboard) => {
     });
   };
 
+  const handleStartReading = async () => {
+    const error = await startReading(book);
+    if (error) {
+      toast.error(error);
+      return;
+    }
+
+    toast.success("Lectura iniciada");
+  };
+
   return {
     handleRemoveFromQueue,
+    handleStartReading,
   };
 };

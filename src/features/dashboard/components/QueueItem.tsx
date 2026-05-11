@@ -7,7 +7,7 @@ interface QueueItemProps {
 }
 
 export const QueueItem = ({ book }: QueueItemProps) => {
-  const { handleRemoveFromQueue } = useQueueItem(book);
+  const { handleRemoveFromQueue, handleStartReading } = useQueueItem(book);
 
   return (
     <div className="grid grid-cols-[auto_1fr] gap-4 bg-white border border-gray-200 shadow-md py-4 px-6 rounded relative">
@@ -27,7 +27,7 @@ export const QueueItem = ({ book }: QueueItemProps) => {
         <h3 className="text-gray-600 text-sm">{book.authors.join(", ")}</h3>
         <div className="flex gap-2">
           {book.status === "EN COLA" && book.queuePosition === 1 && (
-            <Button variant="blue" size="sm">
+            <Button variant="blue" size="sm" onClick={handleStartReading}>
               Iniciar Lectura
             </Button>
           )}
@@ -42,11 +42,11 @@ export const QueueItem = ({ book }: QueueItemProps) => {
           )}
           {book.status === "EN LECTURA" && (
             <>
-              <Button variant="secondary" size="sm">
-                Pausar Lectura
-              </Button>
               <Button variant="blue" size="sm">
                 Completar Lectura
+              </Button>
+              <Button variant="secondary" size="sm">
+                Pausar Lectura
               </Button>
             </>
           )}
