@@ -12,13 +12,21 @@ export const ReadingQueue = () => {
         paragraph="Organiza tus lecturas pendientes y continúa con tus libros favoritos"
       />
 
-      <div className="grid grid-cols-[1fr_400px] gap-4">
-        <main className="w-full flex flex-col gap-6">
-          {queue.items.map((book) => (
-            <QueueItem key={book.id} book={book} />
-          ))}
-        </main>
-      </div>
+      {queue.items.length === 0 && (
+        <div className="w-full h-64 flex items-center justify-center bg-gray-100 rounded-lg">
+          <p className="text-gray-500">Tu cola de lectura está vacía</p>
+        </div>
+      )}
+
+      {queue.items.length > 0 && (
+        <div className="grid grid-cols-[1fr_400px] gap-4">
+          <main className="w-full flex flex-col gap-6">
+            {queue.items.map((book) => (
+              <QueueItem key={book.id} book={book} />
+            ))}
+          </main>
+        </div>
+      )}
     </>
   );
 };
