@@ -35,13 +35,15 @@ export function BookCard({ book }: BookCardProps) {
             {statesMessages[book.status as BookDashboardStates].text}
           </div>
 
-          <Button
-            asChild
-            onClick={handleRemoveFromDashboard}
-            className="absolute top-6 left-6 size-7 flex items-center justify-center bg-red-500 text-white text-xs font-semibold rounded-full"
-          >
-            <i className="ri-delete-bin-7-fill"></i>
-          </Button>
+          {book.status !== "EN COLA" && book.status !== "EN LECTURA" && (
+            <Button
+              asChild
+              onClick={handleRemoveFromDashboard}
+              className="absolute top-6 left-6 size-7 flex items-center justify-center bg-red-500 text-white text-xs font-semibold rounded-full"
+            >
+              <i className="ri-delete-bin-7-fill"></i>
+            </Button>
+          )}
         </>
       )}
 
