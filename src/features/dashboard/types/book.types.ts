@@ -1,1 +1,5 @@
-export type BookDashboardStates = "AGENDADO" | "EN LECTURA" | "COMPLETADO";
+export type BookDashboardStates =
+  | "AGENDADO"
+  | "EN COLA"
+  | "EN LECTURA"
+  | "COMPLETADO";
