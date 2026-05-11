@@ -2,7 +2,7 @@ import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useCollection } from "@/firebase/hooks/useCollection";
 import type { Book } from "@/features/books/interfaces/book.interface";
 import type { BookDashboard } from "../interfaces/book.interface";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 export const useDashboardState = () => {
   //* Auth
@@ -17,6 +17,7 @@ export const useDashboardState = () => {
     suscribe,
     getById,
     setById,
+    update,
     remove,
   } = useCollection<BookDashboard>(`users/${userId}/books`);
 
@@ -26,6 +27,20 @@ export const useDashboardState = () => {
     const unsubscribe = suscribe();
     return () => unsubscribe();
   }, [userId]);
+
+  //* Memo (Stats)
+  const stats = useMemo(() => {
+    return {
+      addedBooks: books.length,
+
+      booksInQueue: books.filter(
+        (book) => book.status === "EN COLA" || book.status === "EN LECTURA",
+      ).length,
+
+      completedBooks: books.filter((book) => book.status === "COMPLETADO")
+        .length,
+    };
+  }, [books]);
 
   //* Functions
   // ? Agregar libro al dashboard del usuario
@@ -48,8 +63,10 @@ export const useDashboardState = () => {
         bookCover: book.bookCover,
         mainGenre: book.mainGenre,
         status: "AGENDADO",
-        startedAt: null,
-        finishedAt: null,
+        previousStatus: null,
+        queuePosition: null,
+        startDate: null,
+        endDate: null,
       };
 
       const bookAdded = await setById(book.id, payload);
@@ -73,19 +90,18 @@ export const useDashboardState = () => {
 
   // ? Eliminar libro del dashboard del usuario
   const removeFromDashboard = async (
-    bookId: string,
+    book: BookDashboard,
   ): Promise<string | null> => {
     try {
       if (!user || !userId) {
         return "Usuario no autenticado";
       }
 
-      const bookExists = await isInDashboard(bookId);
-      if (!bookExists) {
-        return "Este libro no está en tu dashboard";
+      if (book.status === "EN COLA" || book.status === "EN LECTURA") {
+        return "No puedes eliminar un libro que está en cola o en lectura, primero elimínalo de la cola de lectura";
       }
 
-      const bookRemoved = await remove(bookId);
+      const bookRemoved = await remove(book.id);
 
       if (!bookRemoved) {
         return "Error al eliminar el libro de tu dashboard";
@@ -100,14 +116,13 @@ export const useDashboardState = () => {
 
   return {
     books,
-    addedBooks: books.filter((book) => book.status === "AGENDADO"),
-    booksInQueue: 0, //TODO: Falta implementar en la siguiente HU
-    completedBooks: books.filter((book) => book.status === "COMPLETADO"),
+    ...stats,
     loading,
     error,
 
     addToDashboard,
     isInDashboard,
+    updateBook: update,
     removeFromDashboard,
   };
 };

@@ -10,6 +10,8 @@ export interface BookDashboard {
   mainGenre: BookGenres;
 
   status: BookDashboardStates;
-  startedAt: Date | null;
-  finishedAt: Date | null;
+  previousStatus?: BookDashboardStates | null;
+  queuePosition: number | null;
+  startDate: Date | null;
+  endDate: Date | null;
 }

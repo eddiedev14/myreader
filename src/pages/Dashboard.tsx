@@ -3,6 +3,7 @@ import { useDashboard } from "@/features/dashboard/hooks/useDashboard";
 import { Header } from "@/shared/components/ui/sections/Header";
 import { DashboardStat } from "@/features/dashboard/components/DashboardStat";
 import { BookList } from "@/features/books/components/BookList";
+import { Card } from "@/shared/components/ui/elements/Card";
 
 export const Dashboard = () => {
   //* Contexts
@@ -20,7 +21,7 @@ export const Dashboard = () => {
       <section className="grid grid-cols-3 gap-4">
         <DashboardStat
           title="Libros Añadidos"
-          value={addedBooks.length}
+          value={addedBooks}
           icon="ri-file-marked-fill"
           color="green"
         />
@@ -32,7 +33,7 @@ export const Dashboard = () => {
         />
         <DashboardStat
           title="Libros Completados"
-          value={completedBooks.length}
+          value={completedBooks}
           icon="ri-checkbox-circle-fill"
           color="blue"
         />
@@ -42,7 +43,15 @@ export const Dashboard = () => {
         {/* Lista de libros */}
         <BookList books={books} />
 
-        {/* Cola de lectura */}
+        {/* Cards */}
+        <div className="flex flex-col gap-4">
+          <Card icon="ri-add-circle-fill" title="Mis Colecciones" />
+          <Card
+            icon="ri-sort-desc"
+            title="Cola de Lectura"
+            path="/reading-queue"
+          />
+        </div>
       </section>
     </>
   );
