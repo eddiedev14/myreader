@@ -4,6 +4,7 @@ import { type BookDashboardStates } from "../../dashboard/types/book.types";
 import { Button } from "@/shared/components/shadcn/button";
 import { useBookCard } from "../hooks/useBookCard";
 import { hasState } from "../utils/utils";
+import { formatDate } from "@/shared/utils/utils";
 
 interface BookCardProps {
   book: Book | BookDashboard;
@@ -16,6 +17,8 @@ export function BookCard({ book }: BookCardProps) {
     handleEnqueueBook,
     handleRemoveFromDashboard,
   } = useBookCard(book as BookDashboard);
+
+  const date = hasState(book) ? formatDate(book.endDate) : null;
 
   return (
     <div
@@ -48,6 +51,22 @@ export function BookCard({ book }: BookCardProps) {
         className="w-full h-50 object-cover rounded-md mb-2"
       />
 
+      {hasState(book) && book.status === "COMPLETADO" && (
+        <div
+          className="w-fit px-2 py-1 text-xs font-medium rounded bg-gray-100 flex gap-1"
+          title="Fecha de finalización del libro"
+          aria-label="Fecha de finalización del libro"
+        >
+          <i className="ri-calendar-check-fill"></i>
+          {date
+            ? date.toLocaleDateString("es-CO", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })
+            : "Fecha inválida"}
+        </div>
+      )}
       <h3 className="font-semibold text-lg">{book.title}</h3>
       <p className="text-sm text-gray-500 capitalize">
         {book.mainGenre.replaceAll("_", " ")}
