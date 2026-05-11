@@ -2,7 +2,7 @@ import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useCollection } from "@/firebase/hooks/useCollection";
 import type { Book } from "@/features/books/interfaces/book.interface";
 import type { BookDashboard } from "../interfaces/book.interface";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 export const useDashboardState = () => {
   //* Auth
@@ -27,6 +27,20 @@ export const useDashboardState = () => {
     const unsubscribe = suscribe();
     return () => unsubscribe();
   }, [userId]);
+
+  //* Memo (Stats)
+  const stats = useMemo(() => {
+    return {
+      addedBooks: books.length,
+
+      booksInQueue: books.filter(
+        (book) => book.status === "EN COLA" || book.status === "EN LECTURA",
+      ).length,
+
+      completedBooks: books.filter((book) => book.status === "COMPLETADO")
+        .length,
+    };
+  }, [books]);
 
   //* Functions
   // ? Agregar libro al dashboard del usuario
@@ -102,9 +116,7 @@ export const useDashboardState = () => {
 
   return {
     books,
-    addedBooks: books.filter((book) => book.status === "AGENDADO"),
-    booksInQueue: 0, //TODO: Falta implementar en la siguiente HU
-    completedBooks: books.filter((book) => book.status === "COMPLETADO"),
+    ...stats,
     loading,
     error,
 
