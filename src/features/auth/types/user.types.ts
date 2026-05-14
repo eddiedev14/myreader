@@ -3,7 +3,8 @@ export type User = {
   email: string;
   username: string;
   password: string;
+  photoURL?: string;
 };
 
 export type UserDoc = Omit<User, "password">;
-export type UserLogin = Omit<User, "username">;
+export type UserLogin = Omit<User, "username" | "photoURL">;
