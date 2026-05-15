@@ -1,6 +1,6 @@
 import { Button } from "@/shared/components/shadcn/button";
-import type { BookDashboard } from "../interfaces/book.interface";
-import { useQueueItem } from "../hooks/useQueueItem";
+import type { BookDashboard } from "../../interfaces/book.interface";
+import { useQueueItem } from "../../hooks/readingQueue/useQueueItem";
 
 interface QueueItemProps {
   book: BookDashboard;
