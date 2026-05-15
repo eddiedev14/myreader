@@ -1,7 +1,7 @@
-import type { BookDashboard } from "../../interfaces/book.interface";
-import { useReadingQueue } from "./useReadingQueue";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import type { BookDashboard } from "../../dashboard/interfaces/book.interface";
+import { useReadingQueue } from "./useReadingQueue";
 
 export const useQueueItem = (book: BookDashboard) => {
   //* Custom hooks

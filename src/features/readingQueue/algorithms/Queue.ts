@@ -1,4 +1,4 @@
-import type { BookDashboard } from "../interfaces/book.interface";
+import type { BookDashboard } from "../../dashboard/interfaces/book.interface";
 
 export default class Queue {
   public items: BookDashboard[];

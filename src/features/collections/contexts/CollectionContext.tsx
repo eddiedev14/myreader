@@ -1,5 +1,5 @@
 import { createContext, type ReactNode } from "react";
-import { useCollectionState } from "../hooks/collections/useCollectionState";
+import { useCollectionState } from "../hooks/useCollectionState";
 
 export type ICollectionContext = ReturnType<typeof useCollectionState>;
 

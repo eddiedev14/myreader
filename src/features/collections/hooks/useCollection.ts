@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { CollectionContext } from "../../contexts/CollectionContext";
+import { CollectionContext } from "../contexts/CollectionContext";
 
 export const useCollection = () => {
   const context = useContext(CollectionContext);

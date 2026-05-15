@@ -24,14 +24,14 @@ type IItem = {
 // * Menu items
 const items: IItem[] = [
   {
-    title: "Dashboard",
-    url: "/dashboard",
-    icon: "ri-dashboard-fill",
-  },
-  {
     title: "Librería",
     url: "/library",
     icon: "ri-book-marked-fill",
+  },
+  {
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: "ri-dashboard-fill",
   },
   {
     title: "Cola de Lectura",

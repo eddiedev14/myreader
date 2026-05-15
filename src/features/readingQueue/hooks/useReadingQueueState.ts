@@ -1,9 +1,9 @@
 import { useMemo } from "react";
-import { useDashboard } from "../useDashboard";
-import Queue from "../../algorithms/Queue";
-import type { BookDashboard } from "../../interfaces/book.interface";
+import { useDashboard } from "../../dashboard/hooks/useDashboard";
+import Queue from "../algorithms/Queue";
+import type { BookDashboard } from "../../dashboard/interfaces/book.interface";
 
-export const useReadingQueue = () => {
+export const useReadingQueueState = () => {
   //* Contexts
   const { books, updateBook } = useDashboard();
 

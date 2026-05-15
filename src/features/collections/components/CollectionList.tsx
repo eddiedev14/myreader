@@ -1,9 +1,10 @@
+/** biome-ignore-all lint/a11y/useButtonType: <explanation> */
 import { useState, useMemo, useEffect } from "react";
 import { CollectionCard } from "./CollectionCard";
-import DoubleCircularLinkedList from "../../algorithms/doubleCircularLinkedList/DoubleCircularLinkedList";
-import { getVisibleNodes } from "../../../books/utils/utils";
-import { PAGE_SIZE, VISIBLE_PAGES } from "../../constants/collection.constants";
-import type { Collection } from "../../interfaces/collection.interface";
+import type { Collection } from "../interfaces/collection.interface";
+import DoubleCircularLinkedList from "@/shared/algorithms/doubleCircularLinkedList/DoubleCircularLinkedList";
+import { PAGE_SIZE, VISIBLE_PAGES } from "@/features/books/constants/book.constants";
+import { getVisibleNodes } from "@/features/books/utils/utils";
 
 interface Props {
   collections?: Collection[];
@@ -22,7 +23,7 @@ export function CollectionList({ collections = [] }: Props) {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [collections]);
+  }, []);
 
   if (!collections.length) {
     return (
@@ -39,8 +40,8 @@ export function CollectionList({ collections = [] }: Props) {
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap gap-4">
-        {currentNode.collections.map((collection) => (
-          <CollectionCard key={collection.id} collection={collection} />
+        {currentNode.nodes.map((collection) => (
+          <CollectionCard key={collection.id} collection={collection as Collection} />
         ))}
       </div>
 
@@ -57,10 +58,9 @@ export function CollectionList({ collections = [] }: Props) {
             key={node.page}
             onClick={() => setCurrentPage(node.page)}
             className={`px-3 py-1 rounded cursor-pointer
-              ${
-                currentNode.page === node.page
-                  ? "bg-orange-500 text-white"
-                  : "bg-white text-black border border-gray-400"
+              ${currentNode.page === node.page
+                ? "bg-orange-500 text-white"
+                : "bg-white text-black border border-gray-400"
               }`}
           >
             {node.page}
