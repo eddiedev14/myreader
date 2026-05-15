@@ -38,6 +38,11 @@ const items: IItem[] = [
     url: "/reading-queue",
     icon: "ri-sort-desc",
   },
+  {
+    title: "Mis colecciones",
+    url: "/my-collections",
+    icon: "ri-folder-user-fill",
+  },
 ];
 
 export function AppSidebar() {

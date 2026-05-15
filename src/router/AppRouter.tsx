@@ -7,6 +7,7 @@ import {
   Library,
   BookDetail,
   ReadingQueue,
+  MyCollections,
 } from "@/pages";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { PageLoader } from "@/shared/components/ui/sections/PageLoader";
@@ -41,6 +42,7 @@ export const AppRouter = () => {
           <Route path="/library" element={<Library />} />
           <Route path="/library/:bookID" element={<BookDetail />} />
           <Route path="/reading-queue" element={<ReadingQueue />} />
+          <Route path="/my-collections" element={<MyCollections />} />
         </Route>
       </Route>
     </Routes>
