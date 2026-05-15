@@ -1,4 +1,4 @@
-import type { Collection } from "../interfaces/collection.interface";
+import type { Collection } from "../../collections/interfaces/collection.interface";
 
 export type CollectionFormData = Omit<
   Collection,

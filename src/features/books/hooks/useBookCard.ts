@@ -1,6 +1,6 @@
 import type { BookDashboard } from "@/features/dashboard/interfaces/book.interface";
 import { useDashboard } from "@/features/dashboard/hooks/useDashboard";
-import { useReadingQueue } from "@/features/dashboard/hooks/readingQueue/useReadingQueue";
+import { useReadingQueue } from "@/features/readingQueue/hooks/useReadingQueue";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";

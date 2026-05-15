@@ -6,8 +6,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/shared/components/shadcn/dialog";
-
-import { useCreateCollectionDialog } from "../../hooks/collections/useCreateCollectionDialog";
+import { useCreateCollectionDialog } from "../hooks/useCreateCollectionDialog";
 
 export const CreateCollectionDialog = () => {
   const { open, title, setOpen, setTitle, handleSubmit } =

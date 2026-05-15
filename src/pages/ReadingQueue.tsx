@@ -1,6 +1,6 @@
-import { useReadingQueue } from "@/features/dashboard/hooks/readingQueue/useReadingQueue";
+import { useReadingQueue } from "@/features/readingQueue/hooks/useReadingQueue";
 import { Header } from "@/shared/components/ui/sections/Header";
-import { QueueItem } from "@/features/dashboard/components/readingQueue/QueueItem";
+import { QueueItem } from "@/features/readingQueue/components/QueueItem";
 import { Pomodoro } from "@/features/dashboard/components/Pomodoro";
 
 export const ReadingQueue = () => {

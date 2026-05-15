@@ -1,10 +1,10 @@
 import { useState, useMemo, useEffect } from "react";
 import { BookCard } from "./BookCard";
-import DoubleCircularLinkedList from "../algorithms/doubleCircularLinkedList/DoubleCircularLinkedList";
 import { getVisibleNodes } from "../utils/utils";
 import { PAGE_SIZE, VISIBLE_PAGES } from "../constants/book.constants";
 import type { Book } from "../interfaces/book.interface";
 import type { BookDashboard } from "@/features/dashboard/interfaces/book.interface";
+import DoubleCircularLinkedList from "@/shared/algorithms/doubleCircularLinkedList/DoubleCircularLinkedList";
 
 interface Props {
   books?: Book[] | BookDashboard[];
@@ -37,7 +37,7 @@ export function BookList({ books = [] }: Props) {
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap gap-4">
-        {currentNode.books.map((book) => (
+        {currentNode.nodes.map((book) => (
           <BookCard key={book.id} book={book} />
         ))}
       </div>
@@ -55,10 +55,9 @@ export function BookList({ books = [] }: Props) {
             key={node.page}
             onClick={() => setCurrentPage(node.page)}
             className={`px-3 py-1 rounded cursor-pointer
-              ${
-                currentNode.page === node.page
-                  ? "bg-orange-500 text-white"
-                  : "bg-white text-black border border-gray-400"
+              ${currentNode.page === node.page
+                ? "bg-orange-500 text-white"
+                : "bg-white text-black border border-gray-400"
               }`}
           >
             {node.page}

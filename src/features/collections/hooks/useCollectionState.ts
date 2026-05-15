@@ -1,9 +1,9 @@
+import { useEffect } from "react";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useCollection } from "@/firebase/hooks/useCollection";
-import type { Collection } from "../../interfaces/collection.interface";
-import { useEffect } from "react";
-import type { CollectionFormData } from "../../types/collection.type";
-import { PAGE_SIZE } from "../../constants/collection.constants";
+import type { Collection } from "../interfaces/collection.interface";
+import type { CollectionFormData } from "../types/collection.type";
+import { PAGE_SIZE } from "@/features/books/constants/book.constants";
 
 export const useCollectionState = () => {
   //*Auth
@@ -56,7 +56,7 @@ export const useCollectionState = () => {
     }
   };
 
-  //? Buscar libro por id
+  //? Buscar colección por id
   const getCollectionById = async (id: string) => {
     return await getById(id);
   };
