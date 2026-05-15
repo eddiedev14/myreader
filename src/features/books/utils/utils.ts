@@ -1,12 +1,17 @@
-import Node from "../algorithms/doubleCircularLinkedList/Node";
 import type { Book } from "../interfaces/book.interface";
 import type { BookDashboard } from "@/features/dashboard/interfaces/book.interface";
 
-export function getVisibleNodes(
-  current: Node,
+type PaginationNode = {
+  page: number;
+  next: PaginationNode | null;
+  prev: PaginationNode | null;
+};
+
+export function getVisibleNodes<T extends PaginationNode>(
+  current: T,
   totalPages: number,
   maxVisible: number,
-): Node[] {
+): T[] {
   const half = Math.floor(maxVisible / 2);
 
   let start = current.page - half;
@@ -24,18 +29,18 @@ export function getVisibleNodes(
     start = Math.max(1, end - maxVisible + 1);
   }
 
-  const pages: Node[] = [];
-  let node: Node | null = current;
+  const pages: T[] = [];
+  let node: T | null = current;
 
   // Buscar el nodo inicial
   while (node && node.page !== start) {
-    node = node.prev!;
+    node = node.prev as T;
   }
 
   // Recorrer desde start hasta end
   for (let i = start; i <= end; i++) {
     pages.push(node!);
-    node = node!.next!;
+    node = node!.next as T;
   }
 
   return pages;
