@@ -21,9 +21,14 @@ export const useCollectionState = () => {
 
   //* Effects
   useEffect(() => {
-    const unsubscribe = suscribe();
+    const userId = getUserId();
+
+    if (!userId) return;
+
+    const unsubscribe = suscribe([["creatorId", "==", userId]]);
+
     return () => unsubscribe?.();
-  }, []);
+  }, [user]);
 
   //* Functions
   //? Crear colección
