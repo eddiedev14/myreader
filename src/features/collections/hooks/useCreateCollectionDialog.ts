@@ -10,6 +10,7 @@ export const useCreateCollectionDialog = () => {
   // * States
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
   // * Handlers
 
@@ -31,6 +32,8 @@ export const useCreateCollectionDialog = () => {
       // Crear colección
       const error = await createCollection({
         title,
+        description,
+        books: [],
       });
 
       if (error) {
@@ -41,6 +44,7 @@ export const useCreateCollectionDialog = () => {
       toast.success("Colección publicada correctamente");
 
       setTitle("");
+      setDescription("");
 
       setOpen(false);
     } catch (error) {
@@ -52,8 +56,10 @@ export const useCreateCollectionDialog = () => {
   return {
     open,
     title,
+    description,
     setOpen,
     setTitle,
+    setDescription,
     handleSubmit,
   };
 };
