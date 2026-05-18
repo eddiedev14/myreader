@@ -25,7 +25,7 @@ export function getVisibleNodes<T extends PaginationNode>(
 
   // Ajustar a que el recorrido termine en totalPages si el nodo actual está cerca del final
   if (end > totalPages) {
-    end = totalPages - 1;
+    end = totalPages;
     start = Math.max(1, end - maxVisible + 1);
   }
 

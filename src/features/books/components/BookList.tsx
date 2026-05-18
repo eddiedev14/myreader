@@ -55,9 +55,10 @@ export function BookList({ books = [] }: Props) {
             key={node.page}
             onClick={() => setCurrentPage(node.page)}
             className={`px-3 py-1 rounded cursor-pointer
-              ${currentNode.page === node.page
-                ? "bg-orange-500 text-white"
-                : "bg-white text-black border border-gray-400"
+              ${
+                currentNode.page === node.page
+                  ? "bg-orange-500 text-white"
+                  : "bg-white text-black border border-gray-400"
               }`}
           >
             {node.page}

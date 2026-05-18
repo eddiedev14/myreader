@@ -114,6 +114,15 @@ export const useDashboardState = () => {
     }
   };
 
+  const getBooksInDashboard = async () => {
+    try {
+      return books;
+    } catch (error) {
+      console.error("Error getting dashboard books:", error);
+      return [];
+    }
+  };
+
   return {
     books,
     ...stats,
@@ -124,5 +133,6 @@ export const useDashboardState = () => {
     isInDashboard,
     updateBook: update,
     removeFromDashboard,
+    getBooksInDashboard,
   };
 };
