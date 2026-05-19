@@ -9,10 +9,20 @@ import {
 } from "@/shared/components/shadcn/dialog";
 import { useCollectionDetail } from "../hooks/useCollectionDetail";
 import { AddCollectionBookList } from "./AddCollectionBookList";
+import { BookSearch } from "@/features/books/components/BookSearch";
+import { useDashboardBookSearch } from "@/features/dashboard/hooks/useDashboardBookSearch";
 
 export const AddCollectionBookDialog = () => {
   const [open, setOpen] = useState(false);
   const { dashboardBooks, handleAddBook } = useCollectionDetail();
+  const {
+    query,
+    open: searchOpen,
+    results,
+    suggestions,
+    handleChange,
+    setOpen: setSearchOpen,
+  } = useDashboardBookSearch();
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -27,9 +37,23 @@ export const AddCollectionBookDialog = () => {
         <DialogHeader>
           <DialogTitle>Añadir libro a la colección</DialogTitle>
         </DialogHeader>
+        <div className="mb-4">
+          <BookSearch
+            suggestions={suggestions as any}
+            input={query}
+            open={searchOpen}
+            onChange={handleChange}
+            onSelect={async (book: any) => {
+              await handleAddBook(book.id);
+              setOpen(false);
+              setSearchOpen(false);
+            }}
+          />
+        </div>
+
         <div className="grid place-items-center">
           <AddCollectionBookList
-            books={dashboardBooks}
+            books={query ? results : dashboardBooks}
             onAddBook={handleAddBook}
           />
         </div>
