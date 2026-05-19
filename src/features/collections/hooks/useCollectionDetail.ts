@@ -3,6 +3,7 @@ import { useCollection as useElementCollection } from "@/features/collections/ho
 import type { Collection } from "@/features/collections/interfaces/collection.interface";
 import { useDashboard } from "@/features/dashboard/hooks/useDashboard";
 import { useCollection } from "@/firebase/hooks/useCollection";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -19,6 +20,9 @@ export const useCollectionDetail = () => {
   } = useElementCollection();
   const { books } = useDashboard();
 
+  //* Auth
+  const { getUserId } = useAuth();
+
   //* Firebase
   const { getById } = useCollection<UserDoc>("users");
 
@@ -26,6 +30,7 @@ export const useCollectionDetail = () => {
   const [collection, setCollection] = useState<Collection | null>(null);
   const [creator, setCreator] = useState<UserDoc | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isAuthorized, setIsAuthorized] = useState(true);
 
   //* Fetch collection (subscribe to document for real-time updates)
   useEffect(() => {
@@ -34,15 +39,30 @@ export const useCollectionDetail = () => {
     setLoading(true);
     setCollection(null);
     setCreator(null);
+    setIsAuthorized(true);
 
     const unsubscribe = suscribeById(collectionID, async (data) => {
-      setCollection(data);
-
       if (!data) {
+        setCollection(null);
         setCreator(null);
+        setIsAuthorized(true);
         setLoading(false);
         return;
       }
+
+      const currentUserId = getUserId();
+      const isOwner = currentUserId === data.creatorId;
+
+      if (!isOwner) {
+        setCollection(null);
+        setCreator(null);
+        setIsAuthorized(false);
+        setLoading(false);
+        return;
+      }
+
+      setIsAuthorized(true);
+      setCollection(data);
 
       if (data.creatorId) {
         const creatorData = await getById(data.creatorId);
@@ -92,6 +112,7 @@ export const useCollectionDetail = () => {
     collection,
     creator,
     loading,
+    isAuthorized,
     dashboardBooks: books,
     handleAddBook,
     handleRemoveBook,
