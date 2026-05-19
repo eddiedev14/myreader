@@ -32,7 +32,7 @@ export const AddCollectionBookDialog = () => {
       </DialogTrigger>
 
       {/* Modal */}
-      <DialogContent className="max-h-[90vh] flex flex-col w-full max-w-[50vw] ">
+      <DialogContent className="max-h-[95vh] flex flex-col w-[min(95vw,1040px)] min-w-[360px] max-w-[1040px] overflow-auto">
         {/* Header */}
         <DialogHeader>
           <DialogTitle>Añadir libro a la colección</DialogTitle>

@@ -20,7 +20,7 @@ export function AddCollectionBookCard({ book, onAddBook }: BookCardProps) {
 
   return (
     <div
-      className="w-48 cursor-pointer rounded-lg p-4 shadow-sm hover:shadow-md transition relative"
+      className="w-full max-w-[220px] cursor-pointer rounded-lg p-4 shadow-sm hover:shadow-md transition relative"
       onClick={handleAddToCollection}
     >
       {hasState(book) && (
