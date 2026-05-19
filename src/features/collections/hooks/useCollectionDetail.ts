@@ -11,8 +11,12 @@ export const useCollectionDetail = () => {
   const { collectionID } = useParams();
 
   //* Feature hooks
-  const { getCollectionById, addBookToCollection, removeBookFromCollection } =
-    useElementCollection();
+  const {
+    getCollectionById,
+    addBookToCollection,
+    removeBookFromCollection,
+    suscribeById,
+  } = useElementCollection();
   const { books } = useDashboard();
 
   //* Firebase
@@ -23,28 +27,32 @@ export const useCollectionDetail = () => {
   const [creator, setCreator] = useState<UserDoc | null>(null);
   const [loading, setLoading] = useState(true);
 
-  //* Fetch collection
+  //* Fetch collection (subscribe to document for real-time updates)
   useEffect(() => {
-    const fetchCollection = async () => {
-      try {
-        if (!collectionID) return;
+    if (!collectionID) return;
 
-        setLoading(true);
+    setLoading(true);
+    setCollection(null);
+    setCreator(null);
 
-        const data = await getCollectionById(collectionID);
+    const unsubscribe = suscribeById(collectionID, async (data) => {
+      setCollection(data);
 
-        setCollection(data);
-
-        if (data?.creatorId) {
-          const creatorData = await getById(data.creatorId);
-          setCreator(creatorData);
-        }
-      } finally {
+      if (!data) {
+        setCreator(null);
         setLoading(false);
+        return;
       }
-    };
 
-    fetchCollection();
+      if (data.creatorId) {
+        const creatorData = await getById(data.creatorId);
+        setCreator(creatorData);
+      }
+
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
   }, [collectionID]);
 
   //* Actions

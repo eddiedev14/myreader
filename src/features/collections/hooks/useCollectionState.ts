@@ -10,11 +10,13 @@ export const useCollectionState = () => {
   const { user, getUserId } = useAuth();
 
   //* Collection Hook
+  //* Collection Hook
   const {
     results: collections,
     isPending: loading,
     error,
     suscribe,
+    suscribeById,
     getById,
     add,
     update,
@@ -124,5 +126,6 @@ export const useCollectionState = () => {
     getTotalPages,
     addBookToCollection,
     removeBookFromCollection,
+    suscribeById,
   };
 };

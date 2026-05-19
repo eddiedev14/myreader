@@ -15,7 +15,7 @@ import {
   getDoc,
   setDoc,
 } from "firebase/firestore";
-import type { Unsubscribe } from "firebase/auth";
+import type { Unsubscribe } from "firebase/firestore";
 
 // Tipo de filtro (tupla)
 export type Filter = [string, WhereFilterOp, unknown];
@@ -73,6 +73,34 @@ export const useCollection = <T>(table: string) => {
       setIsPending(false);
       return () => {};
     }
+  };
+
+  //* 1. R -> READ by id (real-time)
+  const suscribeById = (
+    id: string,
+    callback: (doc: Doc<T> | null) => void,
+  ): Unsubscribe => {
+    setIsPending(true);
+    setError(null);
+
+    const unsubscribe = onSnapshot(
+      doc(db, table, id),
+      (snapshot) => {
+        if (snapshot.exists()) {
+          callback({ id: snapshot.id, ...(snapshot.data() as T) });
+        } else {
+          callback(null);
+        }
+
+        setIsPending(false);
+      },
+      () => {
+        setError(`Error al suscribirse al documento ${table}/${id}`);
+        setIsPending(false);
+      },
+    );
+
+    return unsubscribe;
   };
 
   //* 1. R -> READ
@@ -196,6 +224,7 @@ export const useCollection = <T>(table: string) => {
     isPending,
     error,
     suscribe,
+    suscribeById,
     getById,
     add,
     setById,
