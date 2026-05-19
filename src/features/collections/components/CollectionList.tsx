@@ -15,7 +15,7 @@ interface Props {
 
 export function CollectionList({ collections = [] }: Props) {
   const collectionsList = useMemo(
-    () => new DoubleCircularLinkedList(collections),
+    () => new DoubleCircularLinkedList<Collection>(collections),
     [collections],
   );
   const [currentPage, setCurrentPage] = useState(1);

@@ -15,7 +15,8 @@ interface Props {
 
 export function AddCollectionBookList({ books = [], onAddBook }: Props) {
   const booksList = useMemo(
-    () => new DoubleCircularLinkedList(books, COLLECTION_PAGE_SIZE),
+    () =>
+      new DoubleCircularLinkedList<BookDashboard>(books, COLLECTION_PAGE_SIZE),
     [books],
   );
   const [currentPage, setCurrentPage] = useState(1);
