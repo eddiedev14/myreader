@@ -11,7 +11,10 @@ interface Props {
 }
 
 export function BookList({ books = [] }: Props) {
-  const booksList = useMemo(() => new DoubleCircularLinkedList(books), [books]);
+  const booksList = useMemo(
+    () => new DoubleCircularLinkedList<Book | BookDashboard>(books),
+    [books],
+  );
   const [currentPage, setCurrentPage] = useState(1);
 
   const currentNode = useMemo(() => {
