@@ -1,4 +1,7 @@
-import type { Book } from "@/features/books/interfaces/book.interface";
+export interface CollectionBook {
+  id: string;
+  addedAt: string;
+}
 
 export interface Collection {
   // Id para firestore
@@ -7,7 +10,7 @@ export interface Collection {
   // Info de la colección
   title: string;
   description: string;
-  books: Book[];
+  books: CollectionBook[];
 
   // Info de creación
   creatorId: string;
