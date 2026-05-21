@@ -4,21 +4,21 @@ import type { BookDashboard } from "@/features/dashboard/interfaces/book.interfa
 import type { Collection } from "@/features/collections/interfaces/collection.interface";
 import { PAGE_SIZE } from "@/features/books/constants/book.constants";
 
-class DoubleCircularLinkedList {
-  head: Node | null = null;
+class DoubleCircularLinkedList<T extends Book | BookDashboard | Collection> {
+  head: Node<T> | null = null;
 
-  constructor(nodes: Book[] | BookDashboard[] | Collection[]) {
+  constructor(nodes: T[], pageSize: number = PAGE_SIZE) {
     if (!nodes.length) return;
 
-    const totalPages = Math.ceil(nodes.length / PAGE_SIZE);
+    const totalPages = Math.ceil(nodes.length / pageSize);
 
-    const first = new Node(1, nodes.slice(0, PAGE_SIZE));
+    const first = new Node<T>(1, nodes.slice(0, pageSize));
     this.head = first;
     let prev = first;
 
     for (let i = 2; i <= totalPages; i++) {
-      const start = (i - 1) * PAGE_SIZE;
-      const node = new Node(i, nodes.slice(start, start + PAGE_SIZE));
+      const start = (i - 1) * pageSize;
+      const node = new Node<T>(i, nodes.slice(start, start + pageSize));
       prev.next = node;
       node.prev = prev;
       prev = node;
@@ -29,7 +29,7 @@ class DoubleCircularLinkedList {
     first.prev = prev;
   }
 
-  getNode(page: number): Node | null {
+  getNode(page: number): Node<T> | null {
     if (!this.head) return null;
     let current = this.head;
 
@@ -44,11 +44,11 @@ class DoubleCircularLinkedList {
     return null;
   }
 
-  next(current: Node): Node {
+  next(current: Node<T>): Node<T> {
     return current.next!;
   }
 
-  prev(current: Node): Node {
+  prev(current: Node<T>): Node<T> {
     return current.prev!;
   }
 }

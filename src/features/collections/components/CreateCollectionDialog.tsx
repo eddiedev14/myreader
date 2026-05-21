@@ -9,8 +9,15 @@ import {
 import { useCreateCollectionDialog } from "../hooks/useCreateCollectionDialog";
 
 export const CreateCollectionDialog = () => {
-  const { open, title, setOpen, setTitle, handleSubmit } =
-    useCreateCollectionDialog();
+  const {
+    open,
+    title,
+    description,
+    setOpen,
+    setTitle,
+    setDescription,
+    handleSubmit,
+  } = useCreateCollectionDialog();
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -36,6 +43,15 @@ export const CreateCollectionDialog = () => {
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                className="border p-2 rounded w-full mt-1 box-border"
+              />
+            </div>
+            <div>
+              <label className="font-semibold">Descripción</label>
+              <input
+                type="text"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
                 className="border p-2 rounded w-full mt-1 box-border"
               />
             </div>

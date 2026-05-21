@@ -45,7 +45,11 @@ export const Dashboard = () => {
 
         {/* Cards */}
         <div className="flex flex-col gap-4">
-          <Card icon="ri-add-circle-fill" title="Mis Colecciones" />
+          <Card
+            icon="ri-add-circle-fill"
+            title="Mis Colecciones"
+            path="/my-collections"
+          />
           <Card
             icon="ri-sort-desc"
             title="Cola de Lectura"

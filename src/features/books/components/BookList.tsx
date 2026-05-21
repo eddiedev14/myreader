@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
-import { BookCard } from "./BookCard";
+import { BookCard, type BookCardProps } from "./BookCard";
 import { getVisibleNodes } from "../utils/utils";
 import { PAGE_SIZE, VISIBLE_PAGES } from "../constants/book.constants";
 import type { Book } from "../interfaces/book.interface";
@@ -8,10 +8,23 @@ import DoubleCircularLinkedList from "@/shared/algorithms/doubleCircularLinkedLi
 
 interface Props {
   books?: Book[] | BookDashboard[];
+  pageSize?: number;
+  listClassName?: string;
+  cardProps?: Omit<BookCardProps, "book">;
+  disabledAddBookIds?: string[];
 }
 
-export function BookList({ books = [] }: Props) {
-  const booksList = useMemo(() => new DoubleCircularLinkedList(books), [books]);
+export function BookList({
+  books = [],
+  pageSize = PAGE_SIZE,
+  listClassName = "flex flex-wrap gap-4",
+  cardProps,
+  disabledAddBookIds = [],
+}: Props) {
+  const booksList = useMemo(
+    () => new DoubleCircularLinkedList<Book | BookDashboard>(books, pageSize),
+    [books, pageSize],
+  );
   const [currentPage, setCurrentPage] = useState(1);
 
   const currentNode = useMemo(() => {
@@ -32,13 +45,21 @@ export function BookList({ books = [] }: Props) {
 
   if (!currentNode) return null;
 
-  const totalPages = Math.ceil(books.length / PAGE_SIZE);
+  const totalPages = Math.ceil(books.length / pageSize);
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap gap-4">
+      <div className={listClassName}>
         {currentNode.nodes.map((book) => (
-          <BookCard key={book.id} book={book} />
+          <BookCard
+            key={book.id}
+            book={book}
+            {...cardProps}
+            addButtonDisabled={
+              (cardProps?.addButtonDisabled ?? false) ||
+              disabledAddBookIds.includes(book.id)
+            }
+          />
         ))}
       </div>
 
@@ -55,9 +76,10 @@ export function BookList({ books = [] }: Props) {
             key={node.page}
             onClick={() => setCurrentPage(node.page)}
             className={`px-3 py-1 rounded cursor-pointer
-              ${currentNode.page === node.page
-                ? "bg-orange-500 text-white"
-                : "bg-white text-black border border-gray-400"
+              ${
+                currentNode.page === node.page
+                  ? "bg-orange-500 text-white"
+                  : "bg-white text-black border border-gray-400"
               }`}
           >
             {node.page}

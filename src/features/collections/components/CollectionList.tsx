@@ -3,7 +3,10 @@ import { useState, useMemo, useEffect } from "react";
 import { CollectionCard } from "./CollectionCard";
 import type { Collection } from "../interfaces/collection.interface";
 import DoubleCircularLinkedList from "@/shared/algorithms/doubleCircularLinkedList/DoubleCircularLinkedList";
-import { PAGE_SIZE, VISIBLE_PAGES } from "@/features/books/constants/book.constants";
+import {
+  PAGE_SIZE,
+  VISIBLE_PAGES,
+} from "@/features/books/constants/book.constants";
 import { getVisibleNodes } from "@/features/books/utils/utils";
 
 interface Props {
@@ -12,7 +15,7 @@ interface Props {
 
 export function CollectionList({ collections = [] }: Props) {
   const collectionsList = useMemo(
-    () => new DoubleCircularLinkedList(collections),
+    () => new DoubleCircularLinkedList<Collection>(collections),
     [collections],
   );
   const [currentPage, setCurrentPage] = useState(1);
@@ -41,7 +44,10 @@ export function CollectionList({ collections = [] }: Props) {
     <div className="space-y-4">
       <div className="flex flex-wrap gap-4">
         {currentNode.nodes.map((collection) => (
-          <CollectionCard key={collection.id} collection={collection as Collection} />
+          <CollectionCard
+            key={collection.id}
+            collection={collection as Collection}
+          />
         ))}
       </div>
 
@@ -58,9 +64,10 @@ export function CollectionList({ collections = [] }: Props) {
             key={node.page}
             onClick={() => setCurrentPage(node.page)}
             className={`px-3 py-1 rounded cursor-pointer
-              ${currentNode.page === node.page
-                ? "bg-orange-500 text-white"
-                : "bg-white text-black border border-gray-400"
+              ${
+                currentNode.page === node.page
+                  ? "bg-orange-500 text-white"
+                  : "bg-white text-black border border-gray-400"
               }`}
           >
             {node.page}
