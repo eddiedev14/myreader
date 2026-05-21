@@ -10,20 +10,28 @@ export const useCollectionState = () => {
   const { user, getUserId } = useAuth();
 
   //* Collection Hook
+  //* Collection Hook
   const {
     results: collections,
     isPending: loading,
     error,
     suscribe,
+    suscribeById,
     getById,
     add,
+    update,
   } = useCollection<Collection>("collections");
 
   //* Effects
   useEffect(() => {
-    const unsubscribe = suscribe();
+    const userId = getUserId();
+
+    if (!userId) return;
+
+    const unsubscribe = suscribe([["creatorId", "==", userId]]);
+
     return () => unsubscribe?.();
-  }, []);
+  }, [user]);
 
   //* Functions
   //? Crear colección
@@ -71,6 +79,43 @@ export const useCollectionState = () => {
     return Math.ceil(collections.length / PAGE_SIZE);
   }
 
+  const addBookToCollection = async (collectionId: string, bookId: string) => {
+    const collection = await getCollectionById(collectionId);
+
+    if (!collection) return;
+
+    const alreadyExists = collection.books.some((book) => book.id === bookId);
+
+    if (alreadyExists) {
+      throw new Error("El libro ya existe en la colección");
+    }
+
+    const updatedBooks = [
+      ...collection.books,
+      {
+        id: bookId,
+        addedAt: new Date().toISOString(),
+      },
+    ];
+
+    await update(collectionId, {
+      books: updatedBooks,
+    });
+  };
+
+  const removeBookFromCollection = async (
+    collectionId: string,
+    bookId: string,
+  ) => {
+    const collection = await getCollectionById(collectionId);
+
+    if (!collection) return;
+    const updatedBooks = collection.books.filter((book) => book.id !== bookId);
+    await update(collectionId, {
+      books: updatedBooks,
+    });
+  };
+
   return {
     collections,
     loading,
@@ -79,5 +124,8 @@ export const useCollectionState = () => {
     getCollectionById,
     getPaginatedCollections,
     getTotalPages,
+    addBookToCollection,
+    removeBookFromCollection,
+    suscribeById,
   };
 };
