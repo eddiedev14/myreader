@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 import type { UserDoc } from "@/features/auth/types/user.types";
 import { useCollection as useElementCollection } from "@/features/collections/hooks/useCollection";
 import type { Collection } from "@/features/collections/interfaces/collection.interface";
@@ -6,7 +8,6 @@ import { useCollection } from "@/firebase/hooks/useCollection";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 
 export const useCollectionDetail = () => {
   //* URL Params
@@ -93,11 +94,27 @@ export const useCollectionDetail = () => {
   const handleRemoveBook = async (bookId: string) => {
     if (!collectionID) return;
 
-    await removeBookFromCollection(collectionID, bookId);
+    Swal.fire({
+      title: "¿Deseas eliminar este libro de la colección?",
+      text: "Este libro será eliminado de tu colección, ¿Deseas continuar?",
+      showCancelButton: true,
+      confirmButtonText: "Eliminar",
+      confirmButtonColor: "#E52F1E",
+      cancelButtonText: `Cancelar`,
+    }).then(async (result) => {
+      if (!result.isConfirmed) return;
 
-    const updatedCollection = await getCollectionById(collectionID);
-
-    setCollection(updatedCollection);
+      try {
+        await removeBookFromCollection(collectionID, bookId);
+        const updatedCollection = await getCollectionById(collectionID);
+        setCollection(updatedCollection);
+        toast.success("Libro eliminado de la colección");
+      } catch (err: any) {
+        toast.error(
+          err?.message || "Error al eliminar el libro de la colección",
+        );
+      }
+    });
   };
 
   const getCollectionBooks = () => {
