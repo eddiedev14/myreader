@@ -1,5 +1,5 @@
 import { AddCollectionBookDialog } from "@/features/collections/components/AddCollectionBookDialog";
-import { CollectionBookList } from "@/features/collections/components/CollectionBookList";
+import { BookList } from "@/features/books/components/BookList";
 import { useCollectionDetail } from "@/features/collections/hooks/useCollectionDetail";
 import { Button } from "@/shared/components/shadcn/button";
 import { Header } from "@/shared/components/ui/sections/Header";
@@ -8,8 +8,13 @@ import { Link } from "react-router-dom";
 import LibraryIllustration from "../assets/illustrations/library.svg";
 
 export const CollectionDetail = () => {
-  const { loading, collection, isAuthorized, getCollectionBooks } =
-    useCollectionDetail();
+  const {
+    loading,
+    collection,
+    isAuthorized,
+    getCollectionBooks,
+    handleRemoveBook,
+  } = useCollectionDetail();
 
   if (loading) {
     return <PageLoader />;
@@ -68,14 +73,10 @@ export const CollectionDetail = () => {
             <AddCollectionBookDialog />
           </div>
         </div>
-        {/* <BookSearch
-              input={query}
-              open={open}
-              suggestions={suggestions}
-              onChange={handleChange}
-              onSelect={handleSelect}
-            /> */}
-        <CollectionBookList books={getCollectionBooks()} />
+        <BookList
+          books={getCollectionBooks()}
+          cardProps={{ onRemove: handleRemoveBook, showRemoveButton: true }}
+        />
       </div>
     </>
   );

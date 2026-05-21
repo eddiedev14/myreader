@@ -1,3 +1,4 @@
+import { useState, type MouseEvent } from "react";
 import type { Book } from "../interfaces/book.interface";
 import type { BookDashboard } from "@/features/dashboard/interfaces/book.interface";
 import { type BookDashboardStates } from "../../dashboard/types/book.types";
@@ -6,11 +7,27 @@ import { useBookCard } from "../hooks/useBookCard";
 import { hasState } from "../utils/utils";
 import { formatDate } from "@/shared/utils/utils";
 
-interface BookCardProps {
+export interface BookCardProps {
   book: Book | BookDashboard;
+  onAdd?: (bookId: string) => Promise<void> | void;
+  onRemove?: (bookId: string) => void;
+  showAddButton?: boolean;
+  showRemoveButton?: boolean;
+  addButtonDisabled?: boolean;
+  addButtonLabel?: string;
 }
 
-export function BookCard({ book }: BookCardProps) {
+export function BookCard({
+  book,
+  onAdd,
+  onRemove,
+  showAddButton,
+  showRemoveButton,
+  addButtonDisabled = false,
+  addButtonLabel,
+}: BookCardProps) {
+  const [isAdding, setIsAdding] = useState(false);
+
   const {
     statesMessages,
     handleNavigateBook,
@@ -20,10 +37,49 @@ export function BookCard({ book }: BookCardProps) {
 
   const date = hasState(book) ? formatDate(book.endDate) : null;
 
+  const isAddOnlyCard = Boolean(onAdd);
+
+  const handleCardClick = async () => {
+    if (!onAdd) {
+      handleNavigateBook();
+    }
+  };
+
+  const handleAddButton = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+
+    if (!onAdd || isAdding) return;
+
+    setIsAdding(true);
+    try {
+      await onAdd(book.id);
+    } finally {
+      setIsAdding(false);
+    }
+  };
+
+  const handleRemoveButton = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    if (onRemove) {
+      onRemove(book.id);
+      return;
+    }
+
+    handleRemoveFromDashboard(e);
+  };
+
+  const shouldShowRemoveButton =
+    showRemoveButton ??
+    (!onAdd &&
+      hasState(book) &&
+      book.status !== "EN COLA" &&
+      book.status !== "EN LECTURA");
+  const shouldShowAddButton = showAddButton ?? Boolean(onAdd);
+
   return (
     <div
       className="w-48 cursor-pointer rounded-lg  p-4 shadow-sm hover:shadow-md transition relative"
-      onClick={handleNavigateBook}
+      onClick={handleCardClick}
     >
       {hasState(book) && (
         <>
@@ -35,10 +91,10 @@ export function BookCard({ book }: BookCardProps) {
             {statesMessages[book.status as BookDashboardStates].text}
           </div>
 
-          {book.status !== "EN COLA" && book.status !== "EN LECTURA" && (
+          {shouldShowRemoveButton && (
             <Button
               asChild
-              onClick={handleRemoveFromDashboard}
+              onClick={handleRemoveButton}
               className="absolute top-6 left-6 size-7 flex items-center justify-center bg-red-500 text-white text-xs font-semibold rounded-full"
             >
               <i className="ri-delete-bin-7-fill"></i>
@@ -74,7 +130,7 @@ export function BookCard({ book }: BookCardProps) {
         {book.mainGenre.replaceAll("_", " ")}
       </p>
 
-      {hasState(book) && (
+      {hasState(book) && !isAddOnlyCard && (
         <div className="mt-2 flex flex-col gap-2">
           {(book.status === "AGENDADO" || book.status === "COMPLETADO") && (
             <Button onClick={handleEnqueueBook} size="sm">
@@ -82,13 +138,25 @@ export function BookCard({ book }: BookCardProps) {
             </Button>
           )}
 
-          {/* //TODO: AQUI EN VEZ DE '|| book.status === "COMPLETADO"' DEBERIA DE SER SI LA FUTURA PROPIEDAD DE NOTA EN LA COLECCIÓN TIENE ALGO O NO TIENE ALGO */}
           {(book.status === "EN LECTURA" || book.status === "COMPLETADO") && (
             <Button variant="blue" size="sm">
               <i className="ri-sticky-note-fill"></i>
               {book.status === "EN LECTURA" ? "Tomar Apuntes" : "Ver Apuntes"}
             </Button>
           )}
+        </div>
+      )}
+
+      {shouldShowAddButton && onAdd && (
+        <div className="mt-4 flex items-center justify-between gap-2">
+          <Button
+            size="sm"
+            disabled={isAdding || addButtonDisabled}
+            onClick={handleAddButton}
+          >
+            <i className="ri-add-circle-fill"></i>
+            {addButtonLabel ?? (isAdding ? "Agregando..." : "Agregar")}
+          </Button>
         </div>
       )}
     </div>

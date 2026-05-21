@@ -6,6 +6,7 @@ import { useCollection } from "@/firebase/hooks/useCollection";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const useCollectionDetail = () => {
   //* URL Params
@@ -79,11 +80,14 @@ export const useCollectionDetail = () => {
   const handleAddBook = async (bookId: string) => {
     if (!collectionID) return;
 
-    await addBookToCollection(collectionID, bookId);
-
-    const updatedCollection = await getCollectionById(collectionID);
-
-    setCollection(updatedCollection);
+    try {
+      await addBookToCollection(collectionID, bookId);
+      const updatedCollection = await getCollectionById(collectionID);
+      setCollection(updatedCollection);
+      toast.success("Libro agregado a la colección");
+    } catch (error: any) {
+      toast.error(error?.message || "Error al agregar el libro a la colección");
+    }
   };
 
   const handleRemoveBook = async (bookId: string) => {
