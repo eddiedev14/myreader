@@ -7,3 +7,4 @@ export { BookDetail } from "./BookDetail";
 export { ReadingQueue } from "./ReadingQueue";
 export { MyCollections } from "./MyCollections";
 export { CollectionDetail } from "./CollectionDetail";
+export { BookNote } from "./BookNote";
