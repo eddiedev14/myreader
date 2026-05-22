@@ -5,7 +5,7 @@ import { BookContextProvider } from "./features/books/contexts/BookContext";
 import { DashboardContextProvider } from "./features/dashboard/contexts/DashboardContext";
 import { ReadingQueueContextProvider } from "./features/readingQueue/contexts/ReadingQueueContext";
 import { CollectionContextProvider } from "./features/collections/contexts/CollectionContext";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/react"
 
 export const App = () => {
   return (
