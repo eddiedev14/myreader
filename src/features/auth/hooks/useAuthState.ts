@@ -15,6 +15,7 @@ import {
 
 // * Types & utils
 import type { User, UserDoc, UserLogin } from "../types/user.types";
+import { uploadGooglePhoto } from "../utils/uploadGooglePhoto";
 import { getAuthErrorMessage } from "../utils/firebaseErrors";
 import { toast } from "react-toastify";
 
@@ -38,7 +39,15 @@ export default function useAuthState() {
 
         // Se busca ese usuario en la COLECCIÓN usuarios
         const userDoc = await getById(uid);
-        setUser(userDoc || null);
+
+        // Si Firestore todavía no está listo, usar datos de Firebase Auth temporalmente
+        setUser(
+          userDoc || {
+            username: firebaseUser.displayName || "Invitado",
+            email: firebaseUser.email || "",
+            photoURL: firebaseUser.photoURL || "",
+          },
+        );
       } else {
         setUser(null);
       }
@@ -103,9 +112,17 @@ export default function useAuthState() {
       const isNewUser = additionalUserInfo?.isNewUser;
 
       if (isNewUser) {
+        let firebasePhotoURL = "";
+
+        // Si Google trae foto
+        if (user.photoURL) {
+          firebasePhotoURL = await uploadGooglePhoto(user.photoURL, user.uid);
+        }
+
         await setById(user.uid, {
           username: user.displayName || "Invitado",
           email: user.email!,
+          photoURL: firebasePhotoURL,
         });
       }
 

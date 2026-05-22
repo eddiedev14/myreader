@@ -1,5 +1,16 @@
 import { Routes, Route } from "react-router-dom";
-import { Home, SignUp, SignIn, Dashboard, Library } from "@/pages";
+import {
+  Home,
+  SignUp,
+  SignIn,
+  Dashboard,
+  Library,
+  BookDetail,
+  ReadingQueue,
+  MyCollections,
+  CollectionDetail,
+  BookNote,
+} from "@/pages";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { PageLoader } from "@/shared/components/ui/sections/PageLoader";
 import { GuestOnlyRoute } from "./GuestOnlyRoute";
@@ -31,6 +42,14 @@ export const AppRouter = () => {
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/library" element={<Library />} />
+          <Route path="/library/:bookID" element={<BookDetail />} />
+          <Route path="/reading-queue" element={<ReadingQueue />} />
+          <Route path="/my-collections" element={<MyCollections />} />
+          <Route
+            path="/my-collections/:collectionID"
+            element={<CollectionDetail />}
+          />
+          <Route path="/notes/:bookID" element={<BookNote />} />
         </Route>
       </Route>
     </Routes>
