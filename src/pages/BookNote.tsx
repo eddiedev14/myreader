@@ -1,23 +1,65 @@
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Underline from "@tiptap/extension-underline";
-import Link from "@tiptap/extension-link";
-import Image from "@tiptap/extension-image";
+import { EditorContent } from "@tiptap/react";
 import { ToolBar } from "../features/notes/components/ToolBar";
 import { editorStyles } from "@/features/notes/styles/editorStyles";
+import { useBookNote } from "@/features/notes/hooks/useBookNote";
+import { Header } from "@/shared/components/ui/sections/Header";
+import LibraryIllustration from "@/assets/illustrations/library.svg";
+import { Button } from "@/shared/components/shadcn/button";
+import { Link } from "react-router-dom";
 
 export const BookNote = () => {
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Underline,
-      Link.configure({
-        openOnClick: false,
-      }),
-      Image,
-    ],
-    content: "<p>Hello World!</p>",
-  });
+  const { currentBook, editor, saveNote } = useBookNote();
+
+  // Libro no encontrado en el dashboard
+  if (currentBook === null || currentBook === undefined) {
+    return (
+      <section className="mx-auto flex flex-col items-center gap-4 py-10">
+        <img
+          src={LibraryIllustration}
+          alt="Libro no encontrado"
+          className="w-md"
+        />
+
+        <h2 className="text-center text-2xl font-bold">Libro no encontrado</h2>
+
+        <p className="max-w-md text-center font-light text-gray-600">
+          El libro que intentas consultar no existe en tu dashboard.
+        </p>
+
+        <Button asChild size="lg" variant="outline">
+          <Link to="/dashboard">Volver al dashboard</Link>
+        </Button>
+      </section>
+    );
+  }
+
+  // Lectura no comenzada
+  if (
+    currentBook?.status !== "EN LECTURA" &&
+    currentBook?.status !== "COMPLETADO" &&
+    currentBook !== null &&
+    currentBook !== undefined
+  ) {
+    return (
+      <section className="mx-auto flex flex-col items-center gap-4 py-10">
+        <img
+          src={LibraryIllustration}
+          alt="Lectura no empezada"
+          className="w-md"
+        />
+
+        <h2 className="text-center text-2xl font-bold">Lectura no empezada</h2>
+
+        <p className="max-w-md text-center font-light text-gray-600">
+          No has comenzado a leer este libro.
+        </p>
+
+        <Button asChild size="lg" variant="outline">
+          <Link to="/dashboard">Volver al dashboard</Link>
+        </Button>
+      </section>
+    );
+  }
 
   if (!editor) return null;
 
@@ -37,23 +79,28 @@ export const BookNote = () => {
 
       if (!url) return;
 
-      // Agrega https:// automáticamente
       if (!/^https?:\/\//i.test(url)) {
         url = `https://${url}`;
       }
 
       editor.chain().focus().toggleLink({ href: url }).run();
     },
-    saveContent: () => {
-      console.log(editor.getHTML());
-      alert("Contenido disponible en consola");
-    },
+
+    saveContent: saveNote,
   };
 
   return (
     <>
+      <Header
+        title={currentBook?.title || "Nota del libro"}
+        paragraph={
+          "Lee y edita tus notas acerca de " +
+          (currentBook?.title || "este libro")
+        }
+      />
       <ToolBar commands={commands} editor={editor} />
-      <div className="w-[80vw] max-w-[1000px] h-[90vh] overflow-auto mx-auto mt-[80px] p-5 bg-white rounded-[5px] min-h-[50vh] z-[8] focus-within:outline-[2px] ">
+
+      <div className="mx-auto mt-20 min-h-[50vh] h-[90vh] w-[80vw] max-w-[1000px] overflow-auto rounded-[5px] bg-white p-5 focus-within:outline-[2px]">
         <EditorContent editor={editor} className={editorStyles} />
       </div>
     </>
