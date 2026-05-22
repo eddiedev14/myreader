@@ -13,7 +13,16 @@ export const getAuthErrorMessage = (error: unknown): string => {
         return "La contraseña debe tener al menos 6 caracteres";
 
       case "auth/invalid-credential":
-        return "Correo o contraseña incorrectos";
+        return "Correo o contraseña incorrectos. Si te registraste con Google, usa Google para iniciar sesión.";
+
+      case "auth/popup-closed-by-user":
+        return "Se cerró la ventana de autenticación.";
+
+      case "auth/network-request-failed":
+        return "Error de conexión. Verifica tu internet.";
+
+      case "auth/too-many-requests":
+        return "Demasiados intentos. Intenta más tarde.";
 
       default:
         return "Error de autenticación";
