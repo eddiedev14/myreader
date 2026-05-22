@@ -9,6 +9,7 @@ import {
   ReadingQueue,
   MyCollections,
   CollectionDetail,
+  Recommendations,
 } from "@/pages";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { PageLoader } from "@/shared/components/ui/sections/PageLoader";
@@ -48,6 +49,7 @@ export const AppRouter = () => {
             path="/my-collections/:collectionID"
             element={<CollectionDetail />}
           />
+          <Route path="/recommendations" element={<Recommendations />} />
         </Route>
       </Route>
     </Routes>
