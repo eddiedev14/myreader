@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
@@ -14,9 +14,13 @@ import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
 export const useBookNote = () => {
+  //* URL Params
   const { bookID } = useParams();
 
+  //* Context
   const { books, updateBook } = useDashboard();
+
+  const [loading, setLoading] = useState(true);
 
   const editor = useEditor({
     extensions: [
@@ -32,21 +36,27 @@ export const useBookNote = () => {
 
   // Cargar nota
   useEffect(() => {
-    if (!bookID || !editor) return;
+    const loadNote = async () => {
+      try {
+        if (!bookID || !editor) return;
+        setLoading(true);
+        const currentBook = books.find((book) => book.id === bookID);
+        if (currentBook?.note) {
+          editor.commands.setContent(
+            deserializeEditorContent(currentBook.note.content),
+          );
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    const currentBook = books.find((book) => book.id === bookID);
-
-    if (currentBook?.note) {
-      editor.commands.setContent(
-        deserializeEditorContent(currentBook.note.content),
-      );
-    }
+    loadNote();
   }, [bookID, books, editor]);
 
   // Guardar nota
   const saveNote = async () => {
     if (!bookID || !editor) return;
-
     await updateBook(bookID, {
       note: {
         content: serializeEditorContent(editor.getJSON()),
@@ -60,6 +70,7 @@ export const useBookNote = () => {
   return {
     currentBook: books.find((book) => book.id === bookID),
     editor,
+    loading,
     saveNote,
   };
 };
