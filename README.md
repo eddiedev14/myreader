@@ -33,6 +33,40 @@ Este proyecto nació como aplicación académica universitaria, con el propósit
 
 ---
 
+## 🎯 Propósito del Sistema
+
+MyReader nace para resolver una necesidad concreta de los lectores que consiste la fragmentación de su vida lectora. Hoy, un lector gestiona sus libros pendientes en una nota de celular, sus reseñas en otra app, sus recomendaciones en conversaciones de WhatsApp y su progreso en su memoria. No existe un espacio único, personal y organizado para todo eso.
+
+El propósito de MyReader es ser ese espacio: una plataforma web centralizada donde el usuario pueda **explorar libros, planificar sus lecturas, registrar sus avances, escribir sus reflexiones y descubrir nuevos títulos**, todo en un mismo lugar y de forma personalizada.
+
+---
+
+## 🔭 Alcance del Sistema
+
+MyReader cubre el ciclo completo de la experiencia de lectura de un usuario, desde el descubrimiento hasta el registro de lo leído:
+
+**Incluido en el sistema:**
+
+- Autenticación completa de usuarios (registro, inicio y cierre de sesión) mediante Firebase Authentication.
+- Portal público de libros con búsqueda por título e ISBN (Trie), filtrado por género/subgénero y paginación (Lista).
+- Publicación de libros en el sistema con todos sus metadatos (ISBN, autores, géneros, sinopsis, portada).
+- Dashboard personal por usuario con visualización de estadísticas y estado de cada libro.
+- Cola de lectura con gestión de estados progresivos: `AGENDADO → EN COLA → EN LECTURA → LEÍDO` (Queue).
+- Sistema de colecciones manuales para agrupar libros por criterio personal.
+- Notas por libro mediante un editor de texto enriquecido (Tiptap), disponible durante y después de la lectura.
+- Sistema de comentarios y respuestas anidadas en tiempo real por libro (N-Ary Tree + Firebase Realtime Database).
+- Motor de recomendaciones automáticas basadas en autores y géneros de los libros del usuario (Grafo).
+- Sincronización en tiempo real de todos los datos del usuario con Firestore (`onSnapshot`).
+
+**Fuera del alcance actual:**
+
+- Aplicación móvil nativa (el sistema es exclusivamente web).
+- Integración con APIs externas de libros (Google Books, Open Library, etc.).
+- Sistema de calificaciones o ratings por libro.
+- Funcionalidades sociales entre usuarios (seguir a otros lectores, compartir colecciones).
+- Notificaciones push o por correo electrónico.
+- Panel de administración para la moderación de contenido.
+
 ## ✨ Funcionalidades Principales
 
 | Módulo                 | Descripción                                                                         |
