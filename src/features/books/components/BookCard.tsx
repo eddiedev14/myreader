@@ -6,7 +6,6 @@ import { Button } from "@/shared/components/shadcn/button";
 import { useBookCard } from "../hooks/useBookCard";
 import { hasState } from "../utils/utils";
 import { formatDate } from "@/shared/utils/utils";
-import { Link } from "react-router-dom";
 
 export interface BookCardProps {
   book: Book | BookDashboard;
@@ -16,6 +15,10 @@ export interface BookCardProps {
   showRemoveButton?: boolean;
   addButtonDisabled?: boolean;
   addButtonLabel?: string;
+  recommendationReason?: {
+    text: string;
+    type: "author" | "genre";
+  };
 }
 
 export function BookCard({
@@ -26,6 +29,7 @@ export function BookCard({
   showRemoveButton,
   addButtonDisabled = false,
   addButtonLabel,
+  recommendationReason,
 }: BookCardProps) {
   const [isAdding, setIsAdding] = useState(false);
 
@@ -39,6 +43,7 @@ export function BookCard({
   const date = hasState(book) ? formatDate(book.endDate) : null;
 
   const isAddOnlyCard = Boolean(onAdd);
+  const isRecommendationCard = Boolean(recommendationReason);
 
   const handleCardClick = async () => {
     if (!onAdd) {
@@ -70,11 +75,12 @@ export function BookCard({
   };
 
   const shouldShowRemoveButton =
-    showRemoveButton ??
-    (!onAdd &&
-      hasState(book) &&
-      book.status !== "EN COLA" &&
-      book.status !== "EN LECTURA");
+    !isRecommendationCard &&
+    (showRemoveButton ??
+      (!onAdd &&
+        hasState(book) &&
+        book.status !== "EN COLA" &&
+        book.status !== "EN LECTURA"));
   const shouldShowAddButton = showAddButton ?? Boolean(onAdd);
 
   return (
@@ -82,26 +88,50 @@ export function BookCard({
       className="w-48 cursor-pointer rounded-lg  p-4 shadow-sm hover:shadow-md transition relative"
       onClick={handleCardClick}
     >
-      {hasState(book) && (
-        <>
-          <div
-            className={`absolute top-6 right-6 px-2 py-1 text-xs font-semibold rounded ${
-              statesMessages[book.status as BookDashboardStates].className
-            }`}
-          >
-            {statesMessages[book.status as BookDashboardStates].text}
-          </div>
+      {/* BADGE SUPERIOR */}
+      {isRecommendationCard ? (
+        <div
+          className={`
+            absolute top-6 right-6 px-2 py-1 text-xs font-semibold rounded flex items-center gap-1
+            ${
+              recommendationReason?.type === "author"
+                ? "bg-violet-100 text-violet-700"
+                : "bg-orange-100 text-orange-700"
+            }
+          `}
+        >
+          <i
+            className={
+              recommendationReason?.type === "author"
+                ? "ri-quill-pen-fill"
+                : "ri-bookmark-fill"
+            }
+          />
 
-          {shouldShowRemoveButton && (
-            <Button
-              asChild
-              onClick={handleRemoveButton}
-              className="absolute top-6 left-6 size-7 flex items-center justify-center bg-red-500 text-white text-xs font-semibold rounded-full"
+          {recommendationReason?.text}
+        </div>
+      ) : (
+        hasState(book) && (
+          <>
+            <div
+              className={`absolute top-6 right-6 px-2 py-1 text-xs font-semibold rounded ${
+                statesMessages[book.status as BookDashboardStates].className
+              }`}
             >
-              <i className="ri-delete-bin-7-fill"></i>
-            </Button>
-          )}
-        </>
+              {statesMessages[book.status as BookDashboardStates].text}
+            </div>
+
+            {shouldShowRemoveButton && (
+              <Button
+                asChild
+                onClick={handleRemoveButton}
+                className="absolute top-6 left-6 size-7 flex items-center justify-center bg-red-500 text-white text-xs font-semibold rounded-full"
+              >
+                <i className="ri-delete-bin-7-fill"></i>
+              </Button>
+            )}
+          </>
+        )
       )}
 
       <img
@@ -130,6 +160,13 @@ export function BookCard({
       <p className="text-sm text-gray-500 capitalize">
         {book.mainGenre.replaceAll("_", " ")}
       </p>
+      {isRecommendationCard && (
+        <div className="mt-2 text-xs text-muted-foreground">
+          {recommendationReason?.type === "author"
+            ? "Basado en autores similares"
+            : "Basado en géneros relacionados"}
+        </div>
+      )}
 
       {hasState(book) && !isAddOnlyCard && (
         <div className="mt-2 flex flex-col gap-2">
@@ -140,14 +177,9 @@ export function BookCard({
           )}
 
           {(book.status === "EN LECTURA" || book.status === "COMPLETADO") && (
-            <Button asChild variant="blue" size="sm">
-              <Link
-                to={`/notes/${book.id}`}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <i className="ri-sticky-note-fill"></i>
-                {book.status === "EN LECTURA" ? "Tomar Apuntes" : "Ver Apuntes"}
-              </Link>
+            <Button variant="blue" size="sm">
+              <i className="ri-sticky-note-fill"></i>
+              {book.status === "EN LECTURA" ? "Tomar Apuntes" : "Ver Apuntes"}
             </Button>
           )}
         </div>

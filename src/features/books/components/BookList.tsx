@@ -12,6 +12,10 @@ interface Props {
   listClassName?: string;
   cardProps?: Omit<BookCardProps, "book">;
   disabledAddBookIds?: string[];
+  recommendationReason?: {
+    text: string;
+    type: "author" | "genre";
+  };
 }
 
 export function BookList({
