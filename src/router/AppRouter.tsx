@@ -10,6 +10,7 @@ import {
   MyCollections,
   CollectionDetail,
   BookNote,
+  Recommendations,
 } from "@/pages";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { PageLoader } from "@/shared/components/ui/sections/PageLoader";
@@ -50,6 +51,7 @@ export const AppRouter = () => {
             element={<CollectionDetail />}
           />
           <Route path="/notes/:bookID" element={<BookNote />} />
+          <Route path="/recommendations" element={<Recommendations />} />
         </Route>
       </Route>
     </Routes>

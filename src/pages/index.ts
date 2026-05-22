@@ -8,3 +8,4 @@ export { ReadingQueue } from "./ReadingQueue";
 export { MyCollections } from "./MyCollections";
 export { CollectionDetail } from "./CollectionDetail";
 export { BookNote } from "./BookNote";
+export { Recommendations } from "./Recommendations";

@@ -43,6 +43,11 @@ const items: IItem[] = [
     url: "/my-collections",
     icon: "ri-folder-user-fill",
   },
+  {
+    title: "Recomendaciones",
+    url: "/recommendations",
+    icon: "ri-magic-fill",
+  },
 ];
 
 export function AppSidebar() {
