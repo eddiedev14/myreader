@@ -6,6 +6,11 @@
 @import "@fontsource/poppins/500.css";
 @import "@fontsource/poppins/600.css";
 @import "@fontsource/poppins/700.css";
+@import "@fontsource/poppins/300-italic.css";
+@import "@fontsource/poppins/400-italic.css";
+@import "@fontsource/poppins/500-italic.css";
+@import "@fontsource/poppins/600-italic.css";
+@import "@fontsource/poppins/700-italic.css";
 @import "remixicon/fonts/remixicon.css";
 
 @custom-variant dark (&:is(.dark *));
@@ -202,9 +207,11 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply font-sans;
   }
@@ -215,7 +222,8 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 1000px white inset !important;
-  -webkit-text-fill-color: #08060d !important; /* tu color de texto */
+  -webkit-text-fill-color: #08060d !important;
+  /* tu color de texto */
   transition: background-color 5000s ease-in-out 0s;
 }
 
