@@ -67,6 +67,7 @@ export const useDashboardState = () => {
         queuePosition: null,
         startDate: null,
         endDate: null,
+        note: null,
       };
 
       const bookAdded = await setById(book.id, payload);
