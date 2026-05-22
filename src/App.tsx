@@ -5,20 +5,25 @@ import { BookContextProvider } from "./features/books/contexts/BookContext";
 import { DashboardContextProvider } from "./features/dashboard/contexts/DashboardContext";
 import { ReadingQueueContextProvider } from "./features/readingQueue/contexts/ReadingQueueContext";
 import { CollectionContextProvider } from "./features/collections/contexts/CollectionContext";
+import { Analytics } from "@vercel/analytics/next"
 
 export const App = () => {
   return (
-    <AuthContextProvider>
-      <BookContextProvider>
-        <CollectionContextProvider>
-          <DashboardContextProvider>
-            <ReadingQueueContextProvider>
-              <ToastContainer />
-              <AppRouter />
-            </ReadingQueueContextProvider>
-          </DashboardContextProvider>
-        </CollectionContextProvider>
-      </BookContextProvider>
-    </AuthContextProvider>
+    <>
+      <Analytics />
+
+      <AuthContextProvider>
+        <BookContextProvider>
+          <CollectionContextProvider>
+            <DashboardContextProvider>
+              <ReadingQueueContextProvider>
+                <ToastContainer />
+                <AppRouter />
+              </ReadingQueueContextProvider>
+            </DashboardContextProvider>
+          </CollectionContextProvider>
+        </BookContextProvider>
+      </AuthContextProvider>
+    </>
   );
 };
