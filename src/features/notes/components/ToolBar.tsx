@@ -43,6 +43,7 @@ export const ToolBar = ({ commands, editor }: ToolBarProps) => {
         <div className="flex items-center gap-1">
           {/* Bold */}
           <Button
+            variant="secondary"
             onClick={commands.toggleBold}
             className={getButtonClass("bold")}
           >
@@ -58,6 +59,7 @@ export const ToolBar = ({ commands, editor }: ToolBarProps) => {
 
           {/* Italic */}
           <Button
+            variant="secondary"
             onClick={commands.toggleItalic}
             className={getButtonClass("italic")}
           >
@@ -73,6 +75,7 @@ export const ToolBar = ({ commands, editor }: ToolBarProps) => {
 
           {/* Underline */}
           <Button
+            variant="secondary"
             onClick={commands.toggleUnderline}
             className={getButtonClass("underline")}
           >
@@ -90,6 +93,7 @@ export const ToolBar = ({ commands, editor }: ToolBarProps) => {
 
           {/* H1 */}
           <Button
+            variant="secondary"
             onClick={commands.toggleH1}
             className={getButtonClass("heading", { level: 1 })}
           >
@@ -98,6 +102,7 @@ export const ToolBar = ({ commands, editor }: ToolBarProps) => {
 
           {/* H2 */}
           <Button
+            variant="secondary"
             onClick={commands.toggleH2}
             className={getButtonClass("heading", { level: 2 })}
           >
@@ -106,6 +111,7 @@ export const ToolBar = ({ commands, editor }: ToolBarProps) => {
 
           {/* H3 */}
           <Button
+            variant="secondary"
             onClick={commands.toggleH3}
             className={getButtonClass("heading", { level: 3 })}
           >
@@ -116,6 +122,7 @@ export const ToolBar = ({ commands, editor }: ToolBarProps) => {
 
           {/* Ordered List */}
           <Button
+            variant="secondary"
             onClick={commands.toggleListaOrdenada}
             className={getButtonClass("orderedList")}
           >
@@ -131,6 +138,7 @@ export const ToolBar = ({ commands, editor }: ToolBarProps) => {
 
           {/* Bullet List */}
           <Button
+            variant="secondary"
             onClick={commands.toggleListaPuntos}
             className={getButtonClass("bulletList")}
           >
@@ -145,7 +153,11 @@ export const ToolBar = ({ commands, editor }: ToolBarProps) => {
           </Button>
 
           {/* Link */}
-          <Button onClick={commands.addLink} className={getButtonClass("link")}>
+          <Button
+            variant="secondary"
+            onClick={commands.addLink}
+            className={getButtonClass("link")}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -160,6 +172,7 @@ export const ToolBar = ({ commands, editor }: ToolBarProps) => {
         {/* RIGHT */}
         <div className="flex items-center">
           <Button
+            variant="secondary"
             onClick={commands.saveContent}
             className="h-9 px-4 rounded-lg bg-blue-500 text-white text-sm font-medium transition-colors hover:bg-blue-600"
           >

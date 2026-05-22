@@ -70,6 +70,7 @@ export function BookList({
 
       <div className="flex justify-center gap-2">
         <Button
+          variant="secondary"
           onClick={() => setCurrentPage(currentNode.prev!.page)}
           className="px-3 py-1 border border-gray-400 rounded cursor-pointer"
         >
@@ -81,9 +82,10 @@ export function BookList({
             key={node.page}
             onClick={() => setCurrentPage(node.page)}
             className={`px-3 py-1 rounded cursor-pointer
-              ${currentNode.page === node.page
-                ? "bg-primary text-white"
-                : "bg-white text-black border border-gray-400"
+              ${
+                currentNode.page === node.page
+                  ? "bg-primary text-white"
+                  : "bg-white text-black border border-gray-400"
               }`}
           >
             {node.page}
@@ -91,6 +93,7 @@ export function BookList({
         ))}
 
         <Button
+          variant="secondary"
           onClick={() => setCurrentPage(currentNode.next!.page)}
           className="px-3 py-1 border border-gray-400 rounded cursor-pointer"
         >

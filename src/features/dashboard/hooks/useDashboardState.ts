@@ -1,5 +1,6 @@
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useCollection } from "@/firebase/hooks/useCollection";
+import { useCollection as useElementCollection } from "@/features/collections/hooks/useCollection";
 import type { Book } from "@/features/books/interfaces/book.interface";
 import type { BookDashboard } from "../interfaces/book.interface";
 import { useEffect, useMemo } from "react";
@@ -8,6 +9,9 @@ export const useDashboardState = () => {
   //* Auth
   const { user, getUserId } = useAuth();
   const userId = getUserId();
+
+  //* Contexts
+  const { collections } = useElementCollection();
 
   //* Collection Hook
   const {
@@ -98,8 +102,18 @@ export const useDashboardState = () => {
         return "Usuario no autenticado";
       }
 
+      // Tratar de eliminar libro con estado diferente
       if (book.status === "EN COLA" || book.status === "EN LECTURA") {
         return "No puedes eliminar un libro que está en cola o en lectura, primero elimínalo de la cola de lectura";
+      }
+
+      // Tratar de eliminar un libro que se encuentra en alguna colección
+      const isBookInAnyCollection = collections.some((collection) =>
+        collection.books.some((savedBook) => savedBook.id === book.id),
+      );
+
+      if (isBookInAnyCollection) {
+        return "No puedes eliminar un libro que pertenece a una colección";
       }
 
       const bookRemoved = await remove(book.id);

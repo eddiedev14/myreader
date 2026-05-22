@@ -74,7 +74,10 @@ export const AddCollectionBookDialog = () => {
         </div>
 
         <div className="pt-4 border-t mt-4">
-          <Button onClick={() => setOpen(false)} className="w-full">
+          <Button
+            onClick={() => setOpen(false)}
+            className="w-full hover:scale-100"
+          >
             Cerrar
           </Button>
         </div>
