@@ -8,6 +8,7 @@ import {
   VISIBLE_PAGES,
 } from "@/features/books/constants/book.constants";
 import { getVisibleNodes } from "@/features/books/utils/utils";
+import { Button } from "@/shared/components/shadcn/button";
 
 interface Props {
   collections?: Collection[];
@@ -52,34 +53,33 @@ export function CollectionList({ collections = [] }: Props) {
       </div>
 
       <div className="flex justify-center gap-2">
-        <button
+        <Button
           onClick={() => setCurrentPage(currentNode.prev!.page)}
           className="px-3 py-1 border border-gray-400 rounded cursor-pointer"
         >
           <i className="ri-arrow-drop-left-line" />
-        </button>
+        </Button>
 
         {getVisibleNodes(currentNode, totalPages, VISIBLE_PAGES).map((node) => (
-          <button
+          <Button
             key={node.page}
             onClick={() => setCurrentPage(node.page)}
             className={`px-3 py-1 rounded cursor-pointer
-              ${
-                currentNode.page === node.page
-                  ? "bg-orange-500 text-white"
-                  : "bg-white text-black border border-gray-400"
+              ${currentNode.page === node.page
+                ? "bg-primary text-white"
+                : "bg-white text-black border border-gray-400"
               }`}
           >
             {node.page}
-          </button>
+          </Button>
         ))}
 
-        <button
+        <Button
           onClick={() => setCurrentPage(currentNode.next!.page)}
           className="px-3 py-1 border border-gray-400 rounded cursor-pointer"
         >
           <i className="ri-arrow-drop-right-line" />
-        </button>
+        </Button>
       </div>
     </div>
   );
