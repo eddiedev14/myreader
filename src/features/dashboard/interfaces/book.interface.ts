@@ -1,5 +1,6 @@
 import type { BookGenres } from "@/features/books/data/BookGenre";
 import type { BookDashboardStates } from "../types/book.types";
+import type { Note } from "@/features/notes/interfaces/note.interface";
 
 export interface BookDashboard {
   // Snapshot del libro
@@ -14,4 +15,5 @@ export interface BookDashboard {
   queuePosition: number | null;
   startDate: Date | null;
   endDate: Date | null;
+  note: Note | null;
 }

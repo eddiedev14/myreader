@@ -1,6 +1,7 @@
 import { Button } from "@/shared/components/shadcn/button";
 import type { BookDashboard } from "@/features/dashboard/interfaces/book.interface";
 import { useQueueItem } from "../hooks/useQueueItem";
+import { Link } from "react-router-dom";
 
 interface QueueItemProps {
   book: BookDashboard;
@@ -51,7 +52,7 @@ export const QueueItem = ({ book }: QueueItemProps) => {
                 Completar Lectura
               </Button>
               <Button variant="secondary" size="sm">
-                Tomar Apuntes
+                <Link to={`/notes/${book.id}`}>Tomar Apuntes</Link>
               </Button>
               <Button
                 variant="destructive"
