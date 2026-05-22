@@ -6,9 +6,14 @@ import { Header } from "@/shared/components/ui/sections/Header";
 import LibraryIllustration from "@/assets/illustrations/library.svg";
 import { Button } from "@/shared/components/shadcn/button";
 import { Link } from "react-router-dom";
+import { PageLoader } from "@/shared/components/ui/sections/PageLoader";
 
 export const BookNote = () => {
-  const { currentBook, editor, saveNote } = useBookNote();
+  const { loading, currentBook, editor, saveNote } = useBookNote();
+
+  if (loading) {
+    return <PageLoader />;
+  }
 
   // Libro no encontrado en el dashboard
   if (currentBook === null || currentBook === undefined) {
@@ -100,7 +105,7 @@ export const BookNote = () => {
       />
       <ToolBar commands={commands} editor={editor} />
 
-      <div className="mx-auto mt-20 min-h-[50vh] h-[90vh] w-[80vw] max-w-[1000px] overflow-auto rounded-[5px] bg-white p-5 focus-within:outline-[2px]">
+      <div className="mx-auto mt-20 min-h-[50vh] h-[90vh] w-[80vw] max-w-[1000px] overflow-auto rounded-[5px] bg-white p-5 focus-within:outline-[2px] shadow-[0_5px_5px_rgba(0,0,0,0.08)] border border-gray-100">
         <EditorContent editor={editor} className={editorStyles} />
       </div>
     </>
