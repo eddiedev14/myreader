@@ -6,6 +6,7 @@ import { Button } from "@/shared/components/shadcn/button";
 import { useBookCard } from "../hooks/useBookCard";
 import { hasState } from "../utils/utils";
 import { formatDate } from "@/shared/utils/utils";
+import { Link } from "react-router-dom";
 
 export interface BookCardProps {
   book: Book | BookDashboard;
@@ -139,9 +140,14 @@ export function BookCard({
           )}
 
           {(book.status === "EN LECTURA" || book.status === "COMPLETADO") && (
-            <Button variant="blue" size="sm">
-              <i className="ri-sticky-note-fill"></i>
-              {book.status === "EN LECTURA" ? "Tomar Apuntes" : "Ver Apuntes"}
+            <Button asChild variant="blue" size="sm">
+              <Link
+                to={`/notes/${book.id}`}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <i className="ri-sticky-note-fill"></i>
+                {book.status === "EN LECTURA" ? "Tomar Apuntes" : "Ver Apuntes"}
+              </Link>
             </Button>
           )}
         </div>
