@@ -10,7 +10,6 @@ export const useCollectionState = () => {
   const { user, getUserId } = useAuth();
 
   //* Collection Hook
-  //* Collection Hook
   const {
     results: collections,
     isPending: loading,
