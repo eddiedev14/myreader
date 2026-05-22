@@ -3,8 +3,8 @@ import { db } from "../config";
 import {
   collection,
   query,
+  onSnapshot,
   where,
-  getDocs,
   addDoc,
   updateDoc,
   deleteDoc,
@@ -15,6 +15,7 @@ import {
   getDoc,
   setDoc,
 } from "firebase/firestore";
+import type { Unsubscribe } from "firebase/firestore";
 
 // Tipo de filtro (tupla)
 export type Filter = [string, WhereFilterOp, unknown];
@@ -31,7 +32,7 @@ export const useCollection = <T>(table: string) => {
   const [error, setError] = useState<string | null>(null);
 
   //* 1. R -> READ
-  const getAll = async (filters: Filter[] = []): Promise<Doc<T>[]> => {
+  const suscribe = (filters: Filter[] = []): Unsubscribe => {
     // Cargando y no hay errores
     setIsPending(true);
     setError(null);
@@ -47,25 +48,59 @@ export const useCollection = <T>(table: string) => {
       });
 
       // Firebase responde con un “paquete” de documentos
-      const snapshot = await getDocs(q);
+      const unsubscribe = onSnapshot(
+        q,
+        (snapshot) => {
+          const docs: Doc<T>[] = snapshot.docs.map((d) => ({
+            id: d.id,
+            ...(d.data() as T),
+          }));
 
-      // Se unen los documentos para seguir con la estructura del tipo definido
-      const docs: Doc<T>[] = snapshot.docs.map((d) => ({
-        id: d.id, // Identificador unico del documento
-        ...(d.data() as T), // Datos (campos) del documento
-      }));
+          setResults(docs);
+          setIsPending(false);
+        },
+        () => {
+          setError(`Error al suscribirse a ${table}`);
+          setIsPending(false);
+        },
+      );
 
-      // Actualizar estados
-      setResults(docs);
-      setIsPending(false);
-      return docs;
+      return unsubscribe;
     } catch {
       setError(
         `Error al consultar los registros solicitados de la colección ${table}`,
       );
       setIsPending(false);
-      return [];
+      return () => {};
     }
+  };
+
+  //* 1. R -> READ by id (real-time)
+  const suscribeById = (
+    id: string,
+    callback: (doc: Doc<T> | null) => void,
+  ): Unsubscribe => {
+    setIsPending(true);
+    setError(null);
+
+    const unsubscribe = onSnapshot(
+      doc(db, table, id),
+      (snapshot) => {
+        if (snapshot.exists()) {
+          callback({ id: snapshot.id, ...(snapshot.data() as T) });
+        } else {
+          callback(null);
+        }
+
+        setIsPending(false);
+      },
+      () => {
+        setError(`Error al suscribirse al documento ${table}/${id}`);
+        setIsPending(false);
+      },
+    );
+
+    return unsubscribe;
   };
 
   //* 1. R -> READ
@@ -188,7 +223,8 @@ export const useCollection = <T>(table: string) => {
     results,
     isPending,
     error,
-    getAll,
+    suscribe,
+    suscribeById,
     getById,
     add,
     setById,
