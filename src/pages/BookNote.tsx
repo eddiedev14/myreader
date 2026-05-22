@@ -105,7 +105,7 @@ export const BookNote = () => {
       />
       <ToolBar commands={commands} editor={editor} />
 
-      <div className="mx-auto mt-20 min-h-[50vh] h-[90vh] w-[80vw] max-w-[1000px] overflow-auto rounded-[5px] bg-white p-5 focus-within:outline-[2px] shadow-[0_5px_5px_rgba(0,0,0,0.08)] border border-gray-100">
+      <div className="mx-auto mt-2 min-h-[50vh] h-[90vh] w-[80vw] overflow-auto rounded-[5px] bg-white p-5 focus-within:outline-[2px] shadow-[0_5px_5px_rgba(0,0,0,0.08)] border border-gray-100">
         <EditorContent editor={editor} className={editorStyles} />
       </div>
     </>
