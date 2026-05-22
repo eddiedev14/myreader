@@ -10,14 +10,14 @@ export const App = () => {
   return (
     <AuthContextProvider>
       <BookContextProvider>
-        <DashboardContextProvider>
-          <ReadingQueueContextProvider>
-            <CollectionContextProvider>
+        <CollectionContextProvider>
+          <DashboardContextProvider>
+            <ReadingQueueContextProvider>
               <ToastContainer />
               <AppRouter />
-            </CollectionContextProvider>
-          </ReadingQueueContextProvider>
-        </DashboardContextProvider>
+            </ReadingQueueContextProvider>
+          </DashboardContextProvider>
+        </CollectionContextProvider>
       </BookContextProvider>
     </AuthContextProvider>
   );
