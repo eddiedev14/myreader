@@ -25,6 +25,15 @@ https://myreader-app.vercel.app
 
 ---
 
+# 🎨 Mockups
+
+🖼️ Visualiza los mockups de MyReader en Figma:
+
+- Diseño: https://www.figma.com/design/t93TtGoFKECrWnvUXslzo9/MyReader?node-id=0-1&t=n1buf4ZeOf7RH7DM-1
+- Simulación: https://www.figma.com/proto/t93TtGoFKECrWnvUXslzo9/MyReader?node-id=5-2&viewport=408%2C386%2C0.07&t=9YtatFMbclDzDLhl-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=5%3A2&show-proto-sidebar=1&page-id=0%3A1
+
+---
+
 ## 📖 Descripción General
 
 **MyReader** es una aplicación web diseñada para que los usuarios gestionen y planifiquen su experiencia de lectura personal de forma centralizada. Más que un simple listado de libros, MyReader combina organización, planificación, anotaciones y recomendaciones inteligentes en una sola plataforma.
