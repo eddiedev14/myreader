@@ -21,9 +21,10 @@ export const useBookState = () => {
 
   //* Effects
   useEffect(() => {
+    if (!user) return;
     const unsubscribe = suscribe();
     return () => unsubscribe?.();
-  }, []);
+  }, [user]);
 
   //* Functions
   // ? Crear libro
