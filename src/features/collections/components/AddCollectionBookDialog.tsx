@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
 import { Button } from "@/shared/components/shadcn/button";
 import {
   Dialog,
@@ -30,7 +29,6 @@ export const AddCollectionBookDialog = () => {
 
   const handleAddCollectionBook = async (bookId: string) => {
     await handleAddBook(bookId);
-    toast.success("Libro agregado a la colección");
   };
 
   return (
